@@ -1,3 +1,7 @@
+import Services.Users.Users_Service;
+import jdk.nashorn.api.scripting.JSObject;
+import org.json.JSONObject;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
@@ -16,6 +20,12 @@ public class App
     //main function start
     public static void main(String []args)
     {
+
+
+        //Add New User
+        new Users_Service().update(1,"R","Farazi","RezaFta","123","rezafta","");
+        System.out.println("Data inserted");
+
 
         //Get Run MQP
         try
@@ -37,7 +47,6 @@ public class App
                 DataOutputStream DOS = new DataOutputStream(client_socket.getOutputStream());
 
 
-
                 //Socket thread work with multi sockets
                 //Socket thread start
                 new Thread(new Runnable()
@@ -45,9 +54,27 @@ public class App
                     @Override
                     public void run()
                     {
+                        try
+                        {
+                            //Get read condition
+                            JSONObject Data = new JSONObject(DIS.readUTF());
+                            String Condition=Data.get("Condition").toString();
+
+
+                            //Get new message email exist
+                            if(Condition.equals("NEW"))
+                            {
+                                NewCondition(client_socket,DIS,DOS);
+                            }
 
 
 
+                        }
+                        catch (Exception e)
+                        {
+                            //Print error condition
+                            System.out.println(e.getMessage());
+                        }
                     }
                 }).start();
                 //Socket thread end
@@ -63,5 +90,16 @@ public class App
 
     }
     //main function end
+
+
+    //Get new condition function start
+    public static void NewCondition(Socket socket,DataInputStream DIS,DataOutputStream DOS)
+    {
+
+
+
+    }
+    //Get new condition function end
+
 
 }
