@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="72d36cd5-a690-468a-a6f7-b0c242755d33" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Functions/Hash_Lib.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Models/files_tbl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Models/mail_files_tbl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Models/mail_tbl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Models/users_tbl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Repositories/users_repo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Services/Users/Users_Service.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/DBConfigs/hibernate.cfg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQPCore.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MQPCore.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/App.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2KMct9Z18ivlxZXfhQNNG7792aW" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="JPA.DatabaseSchemaImportDialog" value="2f1a2007-e4b1-4a7f-9044-5b5278e4654c" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Rezafta\Desktop\MQP\MQPCore\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Rezafta\Desktop\MQP\MQPCore\src\main\resources\DBConfigs" />
+    </key>
+    <key name="ImportMappingsDialog.RecentPackages">
+      <recent name="com.rezafarazi.MQP" />
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="App" />
+      <module name="MQPCore" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="72d36cd5-a690-468a-a6f7-b0c242755d33" name="Default Changelist" comment="" />
+      <created>1673788104712</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1673788104712</updated>
+      <workItem from="1673788105985" duration="1270000" />
+      <workItem from="1673790155417" duration="1134000" />
+      <workItem from="1673791664457" duration="417000" />
+      <workItem from="1673792872821" duration="529000" />
+      <workItem from="1673796473362" duration="1021000" />
+      <workItem from="1673798943209" duration="200000" />
+      <workItem from="1673807059925" duration="224000" />
+      <workItem from="1673862966722" duration="1739000" />
+      <workItem from="1673864777194" duration="1492000" />
+      <workItem from="1673866616792" duration="1731000" />
+      <workItem from="1673868551782" duration="593000" />
+      <workItem from="1673871733607" duration="1746000" />
+      <workItem from="1673875866370" duration="1254000" />
+      <workItem from="1673877971203" duration="171000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
