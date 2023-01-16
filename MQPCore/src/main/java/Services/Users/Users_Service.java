@@ -41,35 +41,44 @@ public class Users_Service implements users_repo
 
     //Insert function start
     @Override
-    public void insert(String name, String family, String username, String password, String email, String phone)
+    public boolean insert(String name, String family, String username, String password, String email, String phone)
     {
-        //Get Datetime
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
+        if(CheckUserExist(username))
+        {
+            //Get Datetime
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
 
-        String last_edit_date=dtf.format(now);
-        String login_token= Hash_Lib.SHA256(last_edit_date+name+family+username+password);
-        String fp_token="";
-        String google_auth="";
+            String last_edit_date = dtf.format(now);
+            String login_token = Hash_Lib.SHA256(last_edit_date + name + family + username + password);
+            String fp_token = "";
+            String google_auth = "";
 
-        users_tbl user=new users_tbl(
-            name,
-            family,
-            username,
-            password,
-            last_edit_date,
-            login_token,
-            fp_token,
-            google_auth,
-            email,
-            phone
-        );
+            users_tbl user = new users_tbl(
+                    name,
+                    family,
+                    username,
+                    password,
+                    last_edit_date,
+                    login_token,
+                    fp_token,
+                    google_auth,
+                    email,
+                    phone
+            );
 
-        session.save(user);
-        TA.commit();
-        session.close();
-        SF.close();
-        SSR.close();
+            session.save(user);
+            TA.commit();
+            session.close();
+            SF.close();
+            SSR.close();
+            return true;
+
+        }
+        else
+        {
+            return false;
+        }
 
     }
     //Insert function end
@@ -119,6 +128,18 @@ public class Users_Service implements users_repo
         SSR.close();
     }
     //Update user end
+
+
+    //Check exist user start
+
+    @Override
+    public boolean CheckUserExist(String username)
+    {
+        Query hql=session.createQuery("from users_tbl where username='"+username+"' ");
+        return (hql.list().size()>0)?true:false;
+    }
+
+    //Check exist user end
 
 
 }

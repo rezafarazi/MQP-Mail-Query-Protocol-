@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72d36cd5-a690-468a-a6f7-b0c242755d33" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Functions/Hash_Lib.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Models/files_tbl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Models/mail_files_tbl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Models/mail_tbl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Models/users_tbl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Repositories/users_repo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Services/Users/Users_Service.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/DBConfigs/hibernate.cfg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQPCore.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MQPCore.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repositories/users_repo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repositories/users_repo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Services/Users/Users_Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Services/Users/Users_Service.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/App.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,6 +26,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="2KMct9Z18ivlxZXfhQNNG7792aW" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -105,6 +105,7 @@
       <workItem from="1673871733607" duration="1746000" />
       <workItem from="1673875866370" duration="1254000" />
       <workItem from="1673877971203" duration="171000" />
+      <workItem from="1673879982310" duration="500000" />
     </task>
     <servers />
   </component>

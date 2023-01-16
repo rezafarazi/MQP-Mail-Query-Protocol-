@@ -23,8 +23,10 @@ public class App
 
 
         //Add New User
-        new Users_Service().update(1,"R","Farazi","RezaFta","123","rezafta","");
-        System.out.println("Data inserted");
+        //new Users_Service().update(1,"R","Farazi","RezaFta","123","rezafta","");
+        //System.out.println("Data inserted");
+
+        System.out.println(new Users_Service().CheckUserExist("rezafta1"));
 
 
         //Get Run MQP
