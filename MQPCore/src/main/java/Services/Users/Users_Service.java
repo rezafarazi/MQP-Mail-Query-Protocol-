@@ -1,6 +1,5 @@
 package Services.Users;
 
-import Functions.Hash_Lib;
 import Models.users_tbl;
 import Repositories.users_repo;
 import org.hibernate.Session;
@@ -50,7 +49,7 @@ public class Users_Service implements users_repo
             LocalDateTime now = LocalDateTime.now();
 
             String last_edit_date = dtf.format(now);
-            String login_token = Hash_Lib.SHA256(last_edit_date + name + family + username + password);
+            String login_token = org.apache.commons.codec.digest.DigestUtils.sha256Hex(last_edit_date + name + family + username + password);
             String fp_token = "";
             String google_auth = "";
 
@@ -103,7 +102,7 @@ public class Users_Service implements users_repo
         LocalDateTime now = LocalDateTime.now();
 
         String last_edit_date=dtf.format(now);
-        String login_token= Hash_Lib.SHA256(last_edit_date+name+family+username+password);
+        String login_token = org.apache.commons.codec.digest.DigestUtils.sha256Hex(last_edit_date + name + family + username + password);
         String fp_token="";
         String google_auth="";
 

@@ -1,39 +1,48 @@
+import Conf.Config;
+import Services.FileManager.FileManager;
 import Services.Users.Users_Service;
 import jdk.nashorn.api.scripting.JSObject;
 import org.json.JSONObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Properties;
 
 public class App
 {
 
-    //Global server socket variable
+    //Static variables
     public static ServerSocket S_Socket;
 
-    //Run port number
-    public static int Port=15615;
 
 
     //main function start
     public static void main(String []args)
     {
 
+        //Get read properties values
+        new Config();
+
 
         //Add New User
-        //new Users_Service().update(1,"R","Farazi","RezaFta","123","rezafta","");
+        //new Users_Service().insert("R","Farazi","RezaFta","123","rezafta","");
         //System.out.println("Data inserted");
+        new FileManager().NewFile(new File("C:\\Users\\Rezafta\\Desktop\\rezaa.txt"));
+        System.out.println("Opration is done");
+        //System.out.println(new Users_Service().CheckUserExist("rezafta1"));
 
-        System.out.println(new Users_Service().CheckUserExist("rezafta1"));
+
 
 
         //Get Run MQP
         try
         {
             //Init new server socket
-            S_Socket = new ServerSocket(Port);
+            S_Socket = new ServerSocket(Config.Port);
 
             //Print server socket is started
             System.out.println("Socket is ready");
@@ -102,6 +111,8 @@ public class App
 
     }
     //Get new condition function end
+
+
 
 
 }

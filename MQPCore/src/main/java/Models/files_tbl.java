@@ -23,7 +23,16 @@ public class files_tbl
 
     private String address;
 
+    public files_tbl(){
 
+    }
+
+    public files_tbl(String name, String type, String hash, String address) {
+        this.name = name;
+        this.type = type;
+        this.hash = hash;
+        this.address = address;
+    }
 
     public int getId() {
         return id;
