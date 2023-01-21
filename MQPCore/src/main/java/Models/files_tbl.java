@@ -1,13 +1,11 @@
 package Models;
 
-import jdk.jfr.Enabled;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity@GeneratedValue
 public class files_tbl
 {
 

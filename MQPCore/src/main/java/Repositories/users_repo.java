@@ -17,4 +17,7 @@ public interface users_repo
     //Check user exist
     public boolean CheckUserExist(String username);
 
+    //Get user start
+    public users_tbl GetUserByUsername(String username) throws Exception;
+
 }

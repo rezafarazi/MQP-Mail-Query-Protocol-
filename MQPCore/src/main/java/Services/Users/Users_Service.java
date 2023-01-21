@@ -13,6 +13,7 @@ import org.hibernate.query.Query;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Users_Service implements users_repo
 {
@@ -71,11 +72,13 @@ public class Users_Service implements users_repo
             session.close();
             SF.close();
             SSR.close();
+
             return true;
 
         }
         else
         {
+            System.out.println("false");
             return false;
         }
 
@@ -130,15 +133,31 @@ public class Users_Service implements users_repo
 
 
     //Check exist user start
-
     @Override
     public boolean CheckUserExist(String username)
     {
         Query hql=session.createQuery("from users_tbl where username='"+username+"' ");
-        return (hql.list().size()>0)?true:false;
+        return (hql.list().size()>0)?false:true;
     }
-
     //Check exist user end
+
+
+    //Get user by username function start
+    @Override
+    public users_tbl GetUserByUsername(String username) throws Exception {
+        Query hql=session.createQuery("FROM users_tbl where username='"+username+"'");
+        List result = hql.list();
+
+        if(result.size()>0)
+        {
+            return ((users_tbl) result.get(0));
+        }
+        else
+        {
+            throw new Exception("Cannot find user");
+        }
+    }
+    //Get user by username function end
 
 
 }

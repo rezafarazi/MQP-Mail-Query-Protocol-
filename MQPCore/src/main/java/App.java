@@ -1,16 +1,14 @@
 import Conf.Config;
-import Services.FileManager.FileManager;
+import Models.mail_tbl;
+import Models.users_tbl;
+import Services.Mail.Mail_Service;
 import Services.Users.Users_Service;
-import jdk.nashorn.api.scripting.JSObject;
 import org.json.JSONObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Properties;
 
 public class App
 {
@@ -30,9 +28,19 @@ public class App
 
         //Add New User
         //new Users_Service().insert("R","Farazi","RezaFta","123","rezafta","");
-        //System.out.println("Data inserted");
-        new FileManager().NewFile(new File("C:\\Users\\Rezafta\\Desktop\\rezaa.txt"));
-        System.out.println("Opration is done");
+        try
+        {
+            users_tbl user = new Users_Service().GetUserByUsername("rezafta");
+            System.out.println("OK1");
+            mail_tbl mail = new Mail_Service().InsertnewMail("reza", "farazi", user, "rezafta@outlook.com");
+            System.out.println("Data inserted");
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+//        new FileManager().NewFile(new File("C:\\Users\\Rezafta\\Desktop\\rezaa.txt"));
+//        System.out.println("Opration is done");
         //System.out.println(new Users_Service().CheckUserExist("rezafta1"));
 
 

@@ -15,6 +15,7 @@ public class mail_tbl
     private String content;
 
     @ManyToOne
+    @JoinColumn(name = "users_id")
     private users_tbl user_id;
 
     private String datetime;
@@ -25,6 +26,19 @@ public class mail_tbl
 
     private int seen;
 
+
+    public mail_tbl() {
+    }
+
+    public mail_tbl(String title, String content, users_tbl user_id, String datetime, int delete_flag, String from_user, int seen) {
+        this.title = title;
+        this.content = content;
+        this.user_id = user_id;
+        this.datetime = datetime;
+        this.delete_flag = delete_flag;
+        this.from_user = from_user;
+        this.seen = seen;
+    }
 
     public int getId() {
         return id;

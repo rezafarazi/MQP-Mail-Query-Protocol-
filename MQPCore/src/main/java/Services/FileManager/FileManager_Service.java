@@ -3,7 +3,6 @@ package Services.FileManager;
 import Conf.Config;
 import Functions.File_Hash_Lib;
 import Models.files_tbl;
-import Models.users_tbl;
 import Repositories.files_repo;
 import org.apache.commons.io.FilenameUtils;
 import org.hibernate.Session;
@@ -20,7 +19,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class FileManager implements files_repo
+public class FileManager_Service implements files_repo
 {
 
     //Global variables
@@ -33,7 +32,7 @@ public class FileManager implements files_repo
 
 
     //Constractor start
-    public FileManager()
+    public FileManager_Service()
     {
         SSR=new StandardServiceRegistryBuilder().configure("DBConfigs/hibernate.cfg.xml").build();
         Meta=new MetadataSources(SSR).getMetadataBuilder().build();
@@ -52,7 +51,7 @@ public class FileManager implements files_repo
     public boolean NewFile(File file)
     {
         String file_hash=File_Hash_Lib.HashFile(new File(Root_Folder + file.getName().toString()));
-        boolean hash_check=new FileManager().FileExist(file_hash);
+        boolean hash_check=new FileManager_Service().FileExist(file_hash);
 
         if(hash_check == false)
         {

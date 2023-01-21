@@ -1,7 +1,4 @@
 package Models;
-
-import jdk.jfr.Enabled;
-
 import javax.persistence.*;
 
 @Entity
@@ -20,6 +17,15 @@ public class mail_files_tbl
 
     private int status;
 
+
+    public mail_files_tbl() {
+    }
+
+    public mail_files_tbl(files_tbl file_id, mail_tbl mail_id, int status) {
+        this.file_id = file_id;
+        this.mail_id = mail_id;
+        this.status = status;
+    }
 
     public int getId() {
         return id;
