@@ -2,6 +2,7 @@ package Models;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "mail_files_tbl")
 public class mail_files_tbl
 {
 

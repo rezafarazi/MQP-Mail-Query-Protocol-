@@ -10,4 +10,9 @@ public interface mail_repo
     public mail_tbl InsertnewMail(String title, String content, users_tbl user_id, String fromuser);
     //Insert new mail end
 
+    //Get mail with mail id start
+    public mail_tbl GetMailById(int id);
+    //Get mail with mail id end
+
+
 }

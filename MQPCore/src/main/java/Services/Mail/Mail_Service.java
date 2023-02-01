@@ -10,6 +10,7 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,7 +39,7 @@ public class Mail_Service implements mail_repo
 
     //Insert new mail function start
     @Override
-    public mail_tbl InsertnewMail(String title, String content, users_tbl user_id, String fromuser)
+    public mail_tbl InsertnewMail(String title, String content, users_tbl user, String fromuser)
     {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -47,7 +48,7 @@ public class Mail_Service implements mail_repo
         mail_tbl mail=new mail_tbl(
                 title,
                 content,
-                user_id,
+                user,
                 dtf.format(now),
                 0,
                 fromuser,
@@ -63,5 +64,17 @@ public class Mail_Service implements mail_repo
         return mail;
     }
     //Insert new mail function end
+
+
+    //Get mail with mail id start
+    @Override
+    public mail_tbl GetMailById(int id)
+    {
+        Query hql=session.createQuery("from mail_tbl");
+        mail_tbl mail=(mail_tbl) hql.list().get(0);
+        return mail;
+    }
+    //Get mail with mail id end
+
 
 }

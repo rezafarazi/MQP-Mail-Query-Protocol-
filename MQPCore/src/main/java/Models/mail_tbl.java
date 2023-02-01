@@ -3,6 +3,7 @@ package Models;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "mail_tbl")
 public class mail_tbl
 {
 
@@ -16,7 +17,7 @@ public class mail_tbl
 
     @ManyToOne
     @JoinColumn(name = "users_id")
-    private users_tbl user_id;
+    private users_tbl users_id;
 
     private String datetime;
 
@@ -33,7 +34,7 @@ public class mail_tbl
     public mail_tbl(String title, String content, users_tbl user_id, String datetime, int delete_flag, String from_user, int seen) {
         this.title = title;
         this.content = content;
-        this.user_id = user_id;
+        this.users_id = user_id;
         this.datetime = datetime;
         this.delete_flag = delete_flag;
         this.from_user = from_user;
@@ -65,11 +66,11 @@ public class mail_tbl
     }
 
     public users_tbl getUser_id() {
-        return user_id;
+        return users_id;
     }
 
     public void setUser_id(users_tbl user_id) {
-        this.user_id = user_id;
+        this.users_id = user_id;
     }
 
     public String getDatetime() {

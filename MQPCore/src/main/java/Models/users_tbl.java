@@ -1,10 +1,10 @@
 package Models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users_tbl")
-
 public class users_tbl
 {
 

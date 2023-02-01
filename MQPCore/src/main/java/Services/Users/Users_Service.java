@@ -137,7 +137,7 @@ public class Users_Service implements users_repo
     public boolean CheckUserExist(String username)
     {
         Query hql=session.createQuery("from users_tbl where username='"+username+"' ");
-        return (hql.list().size()>0)?false:true;
+        return (hql.list().size()<=1)?false:true;
     }
     //Check exist user end
 
