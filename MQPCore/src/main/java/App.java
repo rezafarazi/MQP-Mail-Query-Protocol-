@@ -9,6 +9,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 
 public class App
 {
@@ -31,9 +32,12 @@ public class App
 //        new Users_Service().insert("R","Farazi","RezaFtaa","123","rezafta","");
         try
         {
-            mail_tbl mail = new Mail_Service().GetMailById(1);
-            System.out.println(mail.getUser_id().getName());
-            System.out.println(mail.getTitle());
+            List<mail_tbl> mail = new Mail_Service().GetMailsByUserName("RezaFta");
+            for(int i=0;i<mail.size();i++)
+            {
+                System.out.println(mail.get(i).getUser_id().getName());
+                System.out.println(mail.get(i).getTitle());
+            }
 //            users_tbl user = new Users_Service().GetUserByUsername("rezafta");
 //            new Mail_Service().InsertnewMail("reza","farazi",user,"rezafta");
 //            mail_tbl mail = new Mail_Service().InsertnewMail("reza", "farazi", user, "rezafta@outlook.com");

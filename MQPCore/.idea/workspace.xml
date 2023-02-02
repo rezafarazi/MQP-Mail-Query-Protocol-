@@ -7,22 +7,12 @@
     <list default="true" id="72d36cd5-a690-468a-a6f7-b0c242755d33" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Models/files_tbl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/files_tbl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Models/mail_files_tbl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/mail_files_tbl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Models/mail_tbl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/mail_tbl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Models/users_tbl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/users_tbl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Repositories/mail_repo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repositories/mail_repo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Services/Mail/Mail_Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Services/Mail/Mail_Service.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Services/Users/Users_Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Services/Users/Users_Service.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/DBConfigs/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/DBConfigs/hibernate.cfg.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/App$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/App$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/DBConfigs/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/DBConfigs/hibernate.cfg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Models/files_tbl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Models/files_tbl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Models/mail_files_tbl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Models/mail_files_tbl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Models/mail_tbl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Models/mail_tbl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Services/Mail/Mail_Service.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Services/Users/Users_Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Services/Users/Users_Service.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Repositories/mail_repo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Repositories/mail_repo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Services/Mail/Mail_Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Services/Mail/Mail_Service.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
