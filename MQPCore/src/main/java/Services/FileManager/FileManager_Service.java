@@ -120,4 +120,15 @@ public class FileManager_Service implements files_repo
     }
     //Get file by hash end
 
+
+    //Get file tbl by hash start
+    @Override
+    public files_tbl GetFileTbl(String Hash)
+    {
+        Query hql=session.createQuery("from files_tbl where hash='"+Hash+"' ");
+        files_tbl file=(files_tbl) hql.list().get(0);
+        return file;
+    }
+    //Get file tbl by hash end
+
 }

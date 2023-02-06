@@ -1,5 +1,7 @@
 package Repositories;
 
+import Models.files_tbl;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -13,5 +15,6 @@ public interface files_repo
 
     public File GetFile(String Hash);
 
+    public files_tbl GetFileTbl(String Hash);
 
 }

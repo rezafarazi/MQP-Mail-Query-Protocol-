@@ -1,15 +1,23 @@
 package MQPSocket;
 
 import Conf.Config;
+import Models.files_tbl;
+import Models.mail_files_tbl;
+import Models.mail_tbl;
 import Models.users_tbl;
+import Services.FileManager.FileManager_Service;
 import Services.Mail.Mail_Service;
 import Services.Users.Users_Service;
+import com.sun.xml.bind.v2.schemagen.xmlschema.List;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class MQPSocket
 {
@@ -105,13 +113,52 @@ public class MQPSocket
     {
         try
         {
-            System.out.println("New Condition");
-            users_tbl user = new Users_Service().GetUserByUsername(Data.get("TO").toString());
-            new Mail_Service().InsertnewMail(Data.get("TITLE").toString(),
-                    Data.get("CONTENT").toString(),
-                    user ,
-                    Data.get("FROM").toString()
-            );
+            System.out.println("New File Condition");
+
+            JSONArray ALLFiles=new JSONArray(Data.get("FileList").toString());
+            mail_tbl mail=new Mail_Service().GetMailById(Integer.parseInt(Data.get("MAILID").toString()));
+            JSONArray want_files=new JSONArray();
+
+            //Get check all share files hash exist in system start
+            for(int i=0;i<ALLFiles.length();i++)
+            {
+                JSONObject FilesData=new JSONObject(ALLFiles.get(i).toString());
+                boolean FileExist = new FileManager_Service().FileExist(FilesData.get("File_Hash").toString());
+                if(FileExist)
+                {
+                    files_tbl files = new FileManager_Service().GetFileTbl(FilesData.get("File_Hash").toString());
+
+                    //Check exist file in storage
+                    boolean check_exist_file=new File(files.getAddress()).exists();
+
+                    if(check_exist_file)
+                    {
+                        mail_files_tbl mailfile = new mail_files_tbl(
+                                files,
+                                mail,
+                                1
+                        );
+                    }
+                    else
+                    {
+                        //If file not exist in storage download again
+                        //want_files.put(new JSONObject("File_Hash",FilesData.get("File_Hash").toString()));
+                        want_files.put(FilesData.get("File_Hash").toString());
+                    }
+
+                }
+                else
+                {
+                    //If file not exist in database get download
+                    want_files.put(FilesData.get("File_Hash").toString());
+                }
+            }
+            //Get check all share files hash exist in system end
+
+            JSONObject result=new JSONObject();
+            result.put("File_Hash",want_files);
+            DOS.write(result.toString().getBytes());
+
             System.out.println("Submit");
         }
         catch (Exception e)
@@ -128,13 +175,21 @@ public class MQPSocket
     {
         try
         {
-            System.out.println("New Condition");
+            System.out.println("New Mail Condition");
             users_tbl user = new Users_Service().GetUserByUsername(Data.get("TO").toString());
-            new Mail_Service().InsertnewMail(Data.get("TITLE").toString(),
+            mail_tbl mail = new Mail_Service().InsertnewMail(Data.get("TITLE").toString(),
                     Data.get("CONTENT").toString(),
                     user ,
                     Data.get("FROM").toString()
             );
+
+            //Send mail id start
+            JSONObject JO=new JSONObject();
+            JO.put("Status","Success");
+            JO.put("MailId",mail.getId());
+            DOS.write(JO.toString().getBytes());
+            //Send mail id end
+
             System.out.println("Submit");
         }
         catch (Exception e)
