@@ -132,6 +132,10 @@ public class MQPSocket
                             {
                                 NewFilesCondition(client_socket,DIS,DOS,Data);
                             }
+                            else if(Condition.equals("UPDATEMAIL"))
+                            {
+                                UpdateMailCondition(client_socket,DIS,DOS,Data);
+                            }
 
 
 
@@ -409,6 +413,39 @@ public class MQPSocket
     }
     //Get new condition function end
 
+
+
+    //Get update condition function start
+    void UpdateMailCondition(Socket socket,DataInputStream DIS,DataOutputStream DOS,JSONObject Data)
+    {
+        try
+        {
+            System.out.println("Update Mail Condition");
+            users_tbl user = new Users_Service().GetUserByUsername(Data.get("TO").toString());
+            mail_tbl mail = new Mail_Service().UpdatenewMail(
+                    Data.getInt("MailId"),
+                    Data.get("TITLE").toString(),
+                    Data.get("CONTENT").toString(),
+                    user ,
+                    Data.get("FROM").toString(),
+                    socket.getInetAddress().toString()
+            );
+
+            //Send mail id start
+            JSONObject JO=new JSONObject();
+            JO.put("Status","Success");
+            JO.put("MailId",mail.getId());
+            DOS.write(JO.toString().getBytes());
+            //Send mail id end
+
+            System.out.println("Submit");
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error : "+e.getMessage());
+        }
+    }
+    //Get update condition function end
 
 
 

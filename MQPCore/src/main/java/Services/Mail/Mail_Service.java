@@ -70,6 +70,27 @@ public class Mail_Service implements mail_repo
     //Insert new mail function end
 
 
+    //Update new mail function start
+    @Override
+    public mail_tbl UpdatenewMail(int mail_id, String title, String content, users_tbl user_id, String fromuser, String IP)
+    {
+        mail_tbl mail=new Mail_Service().GetMailById(mail_id);
+
+        if(mail.getFrom_Ip().equals(IP) && mail.getFrom_user().equals(fromuser)){
+            mail.setTitle(title);
+            mail.setContent(content);
+        }
+
+        session.update(mail);
+        TA.commit();
+        session.close();
+        SF.close();
+        SSR.close();
+        return mail;
+    }
+    //Update new mail function end
+
+
     //Get mail with mail id start
     @Override
     public mail_tbl GetMailById(int id)

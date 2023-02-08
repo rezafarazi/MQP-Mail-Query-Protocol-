@@ -13,6 +13,10 @@ public interface mail_repo
     public mail_tbl InsertnewMail(String title, String content, users_tbl user_id, String fromuser,String IP);
     //Insert new mail end
 
+    //Update new mail start
+    public mail_tbl UpdatenewMail(int mail_id,String title, String content, users_tbl user_id, String fromuser,String IP);
+    //Update new mail end
+
     //Get mail with mail id start
     public mail_tbl GetMailById(int id);
     //Get mail with mail id end
