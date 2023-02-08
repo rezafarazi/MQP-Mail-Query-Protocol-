@@ -10,7 +10,7 @@ public interface mail_repo
 {
 
     //Insert new mail start
-    public mail_tbl InsertnewMail(String title, String content, users_tbl user_id, String fromuser);
+    public mail_tbl InsertnewMail(String title, String content, users_tbl user_id, String fromuser,String IP);
     //Insert new mail end
 
     //Get mail with mail id start

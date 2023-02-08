@@ -42,7 +42,7 @@ public class Mail_Service implements mail_repo
 
     //Insert new mail function start
     @Override
-    public mail_tbl InsertnewMail(String title, String content, users_tbl user, String fromuser)
+    public mail_tbl InsertnewMail(String title, String content, users_tbl user, String fromuser,String IP)
     {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -55,7 +55,8 @@ public class Mail_Service implements mail_repo
                 dtf.format(now),
                 0,
                 fromuser,
-                0
+                0,
+                IP
         );
 
         session.save(mail);

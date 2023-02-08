@@ -27,11 +27,13 @@ public class mail_tbl
 
     private int seen;
 
+    private String From_Ip;
+
 
     public mail_tbl() {
     }
 
-    public mail_tbl(String title, String content, users_tbl user_id, String datetime, int delete_flag, String from_user, int seen) {
+    public mail_tbl(String title, String content, users_tbl user_id, String datetime, int delete_flag, String from_user, int seen, String From_Ip) {
         this.title = title;
         this.content = content;
         this.users_id = user_id;
@@ -39,6 +41,7 @@ public class mail_tbl
         this.delete_flag = delete_flag;
         this.from_user = from_user;
         this.seen = seen;
+        this.From_Ip = From_Ip;
     }
 
     public int getId() {
@@ -103,5 +106,13 @@ public class mail_tbl
 
     public void setSeen(int seen) {
         this.seen = seen;
+    }
+
+    public String getFrom_Ip() {
+        return From_Ip;
+    }
+
+    public void setFrom_Ip(String from_Ip) {
+        From_Ip = from_Ip;
     }
 }

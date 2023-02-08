@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="72d36cd5-a690-468a-a6f7-b0c242755d33" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Protocol.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Protocol.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Conf/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Conf/Config.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MQPSocket/MQPSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MQPSocket/MQPSocket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Models/mail_tbl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/mail_tbl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repositories/mail_repo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repositories/mail_repo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Services/Mail/Mail_Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Services/Mail/Mail_Service.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,13 +51,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/rezafta/JavaProjects/MQP-Mail-Query-Protocol-/MQPCore&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/home/rezafta/JavaProjects/MQP-Mail-Query-Protocol-/MQPCore"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Rezafta\Desktop\MQP\MQPCore\src\main\resources" />

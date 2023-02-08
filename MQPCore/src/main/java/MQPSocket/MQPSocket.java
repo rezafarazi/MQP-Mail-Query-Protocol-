@@ -71,6 +71,14 @@ public class MQPSocket
                 DataOutputStream DOS = new DataOutputStream(client_socket.getOutputStream());
 
 
+                //Get ready receive len
+                byte []inp_len=new byte[1024];
+                DIS.read(inp_len);
+                String count_len=new String(inp_len);
+                int Mesage_Len=Integer.parseInt(count_len.trim());
+                System.out.println("Ready to receive "+Mesage_Len+" Len");
+
+
                 //Socket thread work with multi sockets
                 //Mail Socket thread start
                 new Thread(new Runnable()
@@ -81,7 +89,7 @@ public class MQPSocket
                         try
                         {
                             //Get read condition
-                            byte []res=new byte[Integer.MAX_VALUE];
+                            byte []res=new byte[Mesage_Len];
                             DIS.read(res);
                             String resvice=new String(res);
                             System.out.println(resvice);
@@ -278,7 +286,8 @@ public class MQPSocket
             mail_tbl mail = new Mail_Service().InsertnewMail(Data.get("TITLE").toString(),
                     Data.get("CONTENT").toString(),
                     user ,
-                    Data.get("FROM").toString()
+                    Data.get("FROM").toString(),
+                    socket.getInetAddress().toString()
             );
 
             //Send mail id start
