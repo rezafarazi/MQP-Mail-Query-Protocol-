@@ -21,5 +21,12 @@ public interface mail_repo
     public List<mail_tbl> GetMailsByUserName(String username) throws Exception;
     //Get all user mail with username end
 
+    //Get seen mail start
+    public void SeenMail(int id, String IP) throws Exception;
+    //Get seen mail end
+
+    //Get delete mail start
+    public void DeleteMail(int id, String IP) throws Exception;
+    //Get delete mail end
 
 }

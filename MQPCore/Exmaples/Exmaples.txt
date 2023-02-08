@@ -3,3 +3,8 @@
 
 //New files exmaple format
 {"Condition":"NEWFILES","MAILID":4,"FileList":[{"File_Id":1,"File_Hash":"1020315100006016"},{"File_Id":1,"File_Hash":"1020315100006016"}]}
+
+//Seen and Delete exmaple format
+{"Condition":"SEEN","MailId":6}
+{"Condition":"DELETE","MailId":6}
+

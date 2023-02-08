@@ -26,6 +26,7 @@ public class MQPSocket
     //Static variables
     public static ServerSocket S_Socket;
     public static ServerSocket File_S_Socket;
+    public static ServerSocket Seen_Delete_S_Socket;
 
 
 
@@ -33,11 +34,35 @@ public class MQPSocket
     public MQPSocket()
     {
 
-        //Get start mail socket
-        MailSocket();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Get start mail socket
+                MailSocket();
+            }
+        }).start();
 
-        //Get start file socket
-        FileSocket();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                //Get start file socket
+                FileSocket();
+
+            }
+        }).start();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                //Get start seen socket
+                SeenSocket();
+
+            }
+        }).start();
 
     }
     //Constractor end
@@ -71,14 +96,6 @@ public class MQPSocket
                 DataOutputStream DOS = new DataOutputStream(client_socket.getOutputStream());
 
 
-                //Get ready receive len
-                byte []inp_len=new byte[1024];
-                DIS.read(inp_len);
-                String count_len=new String(inp_len);
-                int Mesage_Len=Integer.parseInt(count_len.trim());
-                System.out.println("Ready to receive "+Mesage_Len+" Len");
-
-
                 //Socket thread work with multi sockets
                 //Mail Socket thread start
                 new Thread(new Runnable()
@@ -88,6 +105,15 @@ public class MQPSocket
                     {
                         try
                         {
+
+                            //Get ready receive len
+                            byte []inp_len=new byte[1024];
+                            DIS.read(inp_len);
+                            String count_len=new String(inp_len);
+                            int Mesage_Len=Integer.parseInt(count_len.trim());
+                            System.out.println("Ready to receive "+Mesage_Len+" Len");
+
+
                             //Get read condition
                             byte []res=new byte[Mesage_Len];
                             DIS.read(res);
@@ -188,6 +214,83 @@ public class MQPSocket
                             while(size > 0 && (bytes=DIS.read(buffer,0,buffer.length))!=-1){
                                 FOS.write(buffer,0,bytes);
                                 size-=bytes;
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            //Print error condition
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }).start();
+                //File Socket thread end
+
+            }
+
+        }
+        catch (Exception e)
+        {
+            //Print error condition
+            System.out.println(e.getMessage());
+        }
+    }
+    //Get File Socket end
+
+
+
+
+    //Get File Socket start
+    void SeenSocket()
+    {
+        //Get Run MQP
+        try
+        {
+            //Init new server socket
+            Seen_Delete_S_Socket = new ServerSocket(Config.SeenPort);
+
+
+            //Print server socket is started
+            System.out.println("Seen Socket is ready on "+Config.SeenPort);
+
+
+            while(true)
+            {
+
+                //Get accept request socket
+                Socket client_socket = Seen_Delete_S_Socket.accept();
+                System.out.println("New Seen request");
+
+
+                //Create a socket send and resvice instance
+                DataInputStream DIS = new DataInputStream(client_socket.getInputStream());
+                DataOutputStream DOS = new DataOutputStream(client_socket.getOutputStream());
+
+
+                //Socket thread work with multi sockets
+                //File Socket thread start
+                new Thread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        try
+                        {
+                            //Get read condition
+                            byte []res=new byte[4096];
+                            DIS.read(res);
+                            String resvice=new String(res);
+                            System.out.println(resvice);
+                            JSONObject Data = new JSONObject(resvice);
+                            int MailId=Data.getInt("MailId");
+
+                            if(Data.get("Condition").toString().equals("SEEN")) {
+                                new Mail_Service().SeenMail(MailId, client_socket.getInetAddress().toString());
+                                System.out.println("Seen ok");
+                            }
+                            else if(Data.get("Condition").toString().equals("DELETE")) {
+                                new Mail_Service().DeleteMail(MailId, client_socket.getInetAddress().toString());
+                                System.out.println("Delete ok");
                             }
 
                         }

@@ -12,6 +12,7 @@ public class Config
     //Run port number
     public static int Port;
     public static int FilePort;
+    public static int SeenPort;
 
     public Config()
     {
@@ -27,6 +28,9 @@ public class Config
 
             //File prot conf
             FilePort=Integer.parseInt(properties.getProperty("file_port").toString());
+
+            //Seen port conf
+            SeenPort=Integer.parseInt(properties.getProperty("seen_delete_port").toString());
 
             //Root folder conf
             Root_Dir=properties.getProperty("rootdir").toString();

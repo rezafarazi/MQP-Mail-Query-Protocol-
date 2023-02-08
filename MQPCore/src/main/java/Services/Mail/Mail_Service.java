@@ -92,4 +92,41 @@ public class Mail_Service implements mail_repo
     //Get all user mail with username end
 
 
+    //Get seen mail start
+    @Override
+    public void SeenMail(int id , String IP) throws Exception {
+
+        mail_tbl mail=new Mail_Service().GetMailById(id);
+
+        if(mail.getFrom_Ip().equals(IP)) {
+            mail.setSeen(1);
+        }
+
+        session.update(mail);
+        TA.commit();
+        session.close();
+        SF.close();
+        SSR.close();
+    }
+    //Get seen mail end
+
+
+    //Get delete mail start
+    @Override
+    public void DeleteMail(int id , String IP) throws Exception {
+        mail_tbl mail=new Mail_Service().GetMailById(id);
+
+        if(mail.getFrom_Ip().equals(IP)) {
+            mail.setDelete_flag(1);
+        }
+
+        session.update(mail);
+        TA.commit();
+        session.close();
+        SF.close();
+        SSR.close();
+    }
+    //Get delete mail end
+
+
 }
