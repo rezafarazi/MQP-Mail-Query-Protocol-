@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class MQPSocket
 
     //Static variables
     public static ServerSocket S_Socket;
+    public static ServerSocket File_S_Socket;
 
 
 
@@ -31,6 +33,21 @@ public class MQPSocket
     public MQPSocket()
     {
 
+        //Get start mail socket
+        MailSocket();
+
+        //Get start file socket
+        FileSocket();
+
+    }
+    //Constractor end
+
+
+
+
+    //Get Mail Socket start
+    void MailSocket()
+    {
         //Get Run MQP
         try
         {
@@ -38,7 +55,8 @@ public class MQPSocket
             S_Socket = new ServerSocket(Config.Port);
 
             //Print server socket is started
-            System.out.println("Socket is ready");
+            System.out.println("Socket is ready on "+Config.Port);
+
 
             while(true)
             {
@@ -54,7 +72,7 @@ public class MQPSocket
 
 
                 //Socket thread work with multi sockets
-                //Socket thread start
+                //Mail Socket thread start
                 new Thread(new Runnable()
                 {
                     @Override
@@ -63,7 +81,7 @@ public class MQPSocket
                         try
                         {
                             //Get read condition
-                            byte []res=new byte[4094];
+                            byte []res=new byte[Integer.MAX_VALUE];
                             DIS.read(res);
                             String resvice=new String(res);
                             System.out.println(resvice);
@@ -91,7 +109,12 @@ public class MQPSocket
                         }
                     }
                 }).start();
-                //Socket thread end
+                //Mail Socket thread end
+
+
+                //File Socket thread start
+
+                //File Socket thread end
 
             }
 
@@ -101,9 +124,84 @@ public class MQPSocket
             //Print error condition
             System.out.println(e.getMessage());
         }
-
     }
-    //Constractor end
+    //Get Mail Socket end
+
+
+
+
+    //Get File Socket start
+    void FileSocket()
+    {
+        //Get Run MQP
+        try
+        {
+            //Init new server socket
+            File_S_Socket = new ServerSocket(Config.FilePort);
+
+
+            //Print server socket is started
+            System.out.println("File Socket is ready on "+Config.FilePort);
+
+
+            while(true)
+            {
+
+                //Get accept request socket
+                Socket client_socket = File_S_Socket.accept();
+                System.out.println("New File request");
+
+
+                //Create a socket send and resvice instance
+                DataInputStream DIS = new DataInputStream(client_socket.getInputStream());
+                DataOutputStream DOS = new DataOutputStream(client_socket.getOutputStream());
+
+
+                //Socket thread work with multi sockets
+                //File Socket thread start
+                new Thread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        try
+                        {
+                            //Get read condition
+                            long size=DIS.readLong();
+                            byte []file_name_byte=new byte[4096];
+                            DIS.read(file_name_byte);
+                            String File_name = new String(file_name_byte);
+
+                            File f=new File(Config.Root_Dir+"/"+File_name);
+                            FileOutputStream FOS=new FileOutputStream(f);
+
+                            byte []buffer=new byte[4096];
+                            int bytes=0;
+                            while(size > 0 && (bytes=DIS.read(buffer,0,buffer.length))!=-1){
+                                FOS.write(buffer,0,bytes);
+                                size-=bytes;
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            //Print error condition
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }).start();
+                //File Socket thread end
+
+            }
+
+        }
+        catch (Exception e)
+        {
+            //Print error condition
+            System.out.println(e.getMessage());
+        }
+    }
+    //Get File Socket end
 
 
 
