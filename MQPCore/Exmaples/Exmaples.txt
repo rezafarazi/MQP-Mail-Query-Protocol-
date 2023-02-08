@@ -8,3 +8,5 @@
 {"Condition":"SEEN","MailId":6}
 {"Condition":"DELETE","MailId":6}
 
+//Update exmaple format
+{"Condition":"UPDATEMAIL","MailId":6,"TITLE":"","CONTENT":"","FROM":"Rezaftaturk","TO":"RezaFta"}
