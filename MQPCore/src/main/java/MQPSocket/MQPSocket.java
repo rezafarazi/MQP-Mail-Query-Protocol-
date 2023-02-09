@@ -137,7 +137,7 @@ public class MQPSocket
                                 UpdateMailCondition(client_socket,DIS,DOS,Data);
                             }
 
-
+                            client_socket.close();
 
                         }
                         catch (Exception e)
@@ -149,10 +149,6 @@ public class MQPSocket
                 }).start();
                 //Mail Socket thread end
 
-
-                //File Socket thread start
-
-                //File Socket thread end
 
             }
 
@@ -219,6 +215,8 @@ public class MQPSocket
                                 FOS.write(buffer,0,bytes);
                                 size-=bytes;
                             }
+
+                            client_socket.close();
 
                         }
                         catch (Exception e)
@@ -296,6 +294,8 @@ public class MQPSocket
                                 new Mail_Service().DeleteMail(MailId, client_socket.getInetAddress().toString());
                                 System.out.println("Delete ok");
                             }
+
+                            client_socket.close();
 
                         }
                         catch (Exception e)
