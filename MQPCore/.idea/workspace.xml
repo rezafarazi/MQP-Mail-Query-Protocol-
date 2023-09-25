@@ -5,8 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72d36cd5-a690-468a-a6f7-b0c242755d33" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/EncriptList.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Functions/TextEncript.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2f1a2007-e4b1-4a7f-9044-5b5278e4654c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2f1a2007-e4b1-4a7f-9044-5b5278e4654c.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MQPSocket/MQPSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MQPSocket/MQPSocket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Protocol.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Protocol.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Conf/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Conf/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/DBConfigs/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/DBConfigs/hibernate.cfg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Conf/Config.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Conf/Config.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/DBConfigs/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/DBConfigs/hibernate.cfg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Functions/File_Hash_Lib.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Functions/File_Hash_Lib.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MQPSocket/MQPSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/files_tbl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Models/files_tbl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/mail_files_tbl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Models/mail_files_tbl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/mail_tbl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Models/mail_tbl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/users_tbl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Models/users_tbl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Repositories/files_repo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Repositories/files_repo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Repositories/mail_files_repo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Repositories/mail_files_repo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Repositories/mail_repo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Repositories/mail_repo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Repositories/users_repo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Repositories/users_repo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Services/FileManager/FileManager_Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Services/FileManager/FileManager_Service.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Services/Mail/Mail_Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Services/Mail/Mail_Service.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Services/MailFiles/Mail_Files_Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Services/MailFiles/Mail_Files_Service.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Services/Users/Users_Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Services/Users/Users_Service.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,13 +66,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2KMct9Z18ivlxZXfhQNNG7792aW" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -52,7 +79,14 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/rezafta/JavaProjects/MQP-Mail-Query-Protocol-/MQPCore&quot;
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Rezafta/Desktop/MQP-Mail-Query-Protocol-/MQPCore&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -126,6 +160,11 @@
       <workItem from="1674051425770" duration="1556000" />
       <workItem from="1674053886836" duration="1742000" />
       <workItem from="1674055722169" duration="1708000" />
+      <workItem from="1695283696707" duration="1207000" />
+      <workItem from="1695543303289" duration="2025000" />
+      <workItem from="1695556409439" duration="4653000" />
+      <workItem from="1695573636455" duration="125000" />
+      <workItem from="1695647238789" duration="550000" />
     </task>
     <servers />
   </component>

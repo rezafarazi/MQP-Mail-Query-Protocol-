@@ -1,12 +1,11 @@
 package Conf;
 
-import java.io.File;
 import java.io.FileReader;
-import java.io.PrintWriter;
 import java.util.Properties;
 
 public class Config
 {
+
     public static String Root_Dir;
 
     //Run port number

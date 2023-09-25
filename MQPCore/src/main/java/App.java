@@ -1,4 +1,5 @@
 import Conf.Config;
+import Functions.TextEncript;
 import Models.mail_tbl;
 import Models.users_tbl;
 import Services.Mail.Mail_Service;
@@ -19,6 +20,9 @@ public class App
 
         //Get read properties values
         new Config();
+
+        //Get initilize encription keys
+        new TextEncript();
 
         //Get run MQP socket
         new MQPSocket();
