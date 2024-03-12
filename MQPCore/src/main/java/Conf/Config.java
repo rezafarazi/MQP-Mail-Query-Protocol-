@@ -11,6 +11,7 @@ public class Config
     //Run port number
     public static int Port;
     public static int FilePort;
+    public static int HttpPort;
     public static int SeenPort;
 
     public Config()
@@ -31,8 +32,12 @@ public class Config
             //Seen port conf
             SeenPort=Integer.parseInt(properties.getProperty("seen_delete_port").toString());
 
+            //Http request response server port
+            HttpPort=Integer.parseInt(properties.getProperty("http_port").toString());
+
             //Root folder conf
             Root_Dir=properties.getProperty("rootdir").toString();
+
 
         }
         catch (Exception e)

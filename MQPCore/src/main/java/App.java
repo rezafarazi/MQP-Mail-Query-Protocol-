@@ -1,5 +1,6 @@
 import Conf.Config;
 import Functions.TextEncript;
+import Http.HttpServer;
 import Models.mail_tbl;
 import Models.users_tbl;
 import Services.Mail.Mail_Service;
@@ -23,6 +24,9 @@ public class App
 
         //Get initilize encription keys
         new TextEncript();
+
+        //Get start http server
+        new HttpServer();
 
         //Get run MQP socket
         new MQPSocket();
