@@ -26,14 +26,12 @@ public class users_tbl
 
     private String fp_token;
 
-    private String google_auth;
-
     private String email;
 
     private String phone;
 
 
-    public users_tbl(String name, String family, String username, String password, String last_edit_date, String login_token, String fp_token, String google_auth, String email, String phone) {
+    public users_tbl(String name, String family, String username, String password, String last_edit_date, String login_token, String fp_token, String email, String phone) {
         this.name = name;
         this.family = family;
         this.username = username;
@@ -41,12 +39,11 @@ public class users_tbl
         this.last_edit_date = last_edit_date;
         this.login_token = login_token;
         this.fp_token = fp_token;
-        this.google_auth = google_auth;
         this.email = email;
         this.phone = phone;
     }
 
-    public users_tbl(int id, String name, String family, String username, String password, String last_edit_date, String login_token, String fp_token, String google_auth, String email, String phone) {
+    public users_tbl(int id, String name, String family, String username, String password, String last_edit_date, String login_token, String fp_token, String email, String phone) {
         this.id = id;
         this.name = name;
         this.family = family;
@@ -55,7 +52,6 @@ public class users_tbl
         this.last_edit_date = last_edit_date;
         this.login_token = login_token;
         this.fp_token = fp_token;
-        this.google_auth = google_auth;
         this.email = email;
         this.phone = phone;
     }
@@ -126,14 +122,6 @@ public class users_tbl
 
     public void setFp_token(String fp_token) {
         this.fp_token = fp_token;
-    }
-
-    public String getGoogle_auth() {
-        return google_auth;
-    }
-
-    public void setGoogle_auth(String google_auth) {
-        this.google_auth = google_auth;
     }
 
     public String getEmail() {

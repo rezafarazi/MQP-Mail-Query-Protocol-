@@ -1,4 +1,5 @@
 import Conf.Config;
+import Functions.Hash;
 import Functions.TextEncript;
 import Http.HttpServer;
 import Models.mail_tbl;

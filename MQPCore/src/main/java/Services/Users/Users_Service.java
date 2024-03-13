@@ -1,5 +1,6 @@
 package Services.Users;
 
+import Functions.Hash;
 import Models.users_tbl;
 import Repositories.users_repo;
 import org.hibernate.Session;
@@ -39,6 +40,25 @@ public class Users_Service implements users_repo
     //Constractor function end
 
 
+    //Get login start
+    @Override
+    public users_tbl Login(String username, String password) throws Exception
+    {
+        Query hql=session.createQuery("FROM users_tbl where username='"+username+"' and password='"+Hash.GetSha256(password)+"'");
+        List result = hql.list();
+
+        if(result.size()>0)
+        {
+            return ((users_tbl) result.get(0));
+        }
+        else
+        {
+            throw new Exception("Cannot find user");
+        }
+    }
+    //Get login end
+
+
     //Insert function start
     @Override
     public boolean insert(String name, String family, String username, String password, String email, String phone)
@@ -50,9 +70,8 @@ public class Users_Service implements users_repo
             LocalDateTime now = LocalDateTime.now();
 
             String last_edit_date = dtf.format(now);
-            String login_token = org.apache.commons.codec.digest.DigestUtils.sha256Hex(last_edit_date + name + family + username + password);
+            String login_token = Hash.GetSha256(last_edit_date + name + family + username + password);
             String fp_token = "";
-            String google_auth = "";
 
             users_tbl user = new users_tbl(
                     name,
@@ -62,7 +81,6 @@ public class Users_Service implements users_repo
                     last_edit_date,
                     login_token,
                     fp_token,
-                    google_auth,
                     email,
                     phone
             );
@@ -105,9 +123,8 @@ public class Users_Service implements users_repo
         LocalDateTime now = LocalDateTime.now();
 
         String last_edit_date=dtf.format(now);
-        String login_token = org.apache.commons.codec.digest.DigestUtils.sha256Hex(last_edit_date + name + family + username + password);
+        String login_token = Hash.GetSha256(last_edit_date + name + family + username + password);
         String fp_token="";
-        String google_auth="";
 
         users_tbl user=new users_tbl(
                 id,
@@ -118,7 +135,6 @@ public class Users_Service implements users_repo
                 last_edit_date,
                 login_token,
                 fp_token,
-                google_auth,
                 email,
                 phone
         );

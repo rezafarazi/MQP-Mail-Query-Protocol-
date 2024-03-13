@@ -115,7 +115,7 @@ public class HttpServer
         }
         else
         {
-            return new ResponseModel("404","text/html","Not found   ");
+            return new ResponseModel("404","text/json","{\"message\":\"not found\"}");
         }
 
     }
@@ -137,7 +137,7 @@ public class HttpServer
                 response=new HttpHandlerController().Index();
             break;
             default:
-                response=new ResponseModel("404","text/html","Not found");
+                response=new ResponseModel("404","text/json","{\"message\":\"not found\"}");
             break;
         }
 
@@ -171,11 +171,11 @@ public class HttpServer
             case "/":
                 response=new HttpHandlerController().Index();
                 break;
-            case "/SayHello":
-                response=new HttpHandlerController().PostTest(parametrs_json);
+            case "/Login":
+                response=new HttpHandlerController().Login(parametrs_json);
                 break;
             default:
-                response=new ResponseModel("404","text/html","Not found");
+                response=new ResponseModel("404","text/json","{\"message\":\"not found\"}");
                 break;
         }
 

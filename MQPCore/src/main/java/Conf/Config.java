@@ -8,6 +8,8 @@ public class Config
 
     public static String Root_Dir;
 
+    public static String JEncrptKey;
+
     //Run port number
     public static int Port;
     public static int FilePort;
@@ -37,6 +39,9 @@ public class Config
 
             //Root folder conf
             Root_Dir=properties.getProperty("rootdir").toString();
+
+            //Json encript key
+            JEncrptKey=properties.getProperty("http_user_encript_key").toString();
 
 
         }

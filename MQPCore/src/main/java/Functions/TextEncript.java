@@ -10,6 +10,8 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class TextEncript
 {
@@ -128,6 +130,47 @@ public class TextEncript
 
 
         return "";
+    }
+    //Get decript text function end
+
+
+    //Get encript text function start
+    public static String TextEncript(String text)
+    {
+        try
+        {
+            SecretKeySpec skeySpec = new SecretKeySpec(Config.JEncrptKey.getBytes(StandardCharsets.UTF_8), "Blowfish");
+            Cipher cipher = Cipher.getInstance("Blowfish");
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+            byte[] encryptedBytes = cipher.doFinal(text.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(encryptedBytes);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    //Get encript text function end
+
+
+    //Get decript text function start
+    public static String TextDecript(String text)
+    {
+        try
+        {
+            SecretKeySpec skeySpec = new SecretKeySpec(Config.JEncrptKey.getBytes(StandardCharsets.UTF_8), "Blowfish");
+            Cipher cipher = Cipher.getInstance("Blowfish");
+            cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+            byte[] decodedBytes = Base64.getDecoder().decode(text);
+            byte[] decryptedBytes = cipher.doFinal(decodedBytes);
+            return new String(decryptedBytes, StandardCharsets.UTF_8);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
     //Get decript text function end
 

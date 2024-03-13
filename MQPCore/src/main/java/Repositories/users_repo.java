@@ -5,6 +5,9 @@ import Models.users_tbl;
 public interface users_repo
 {
 
+    //Get Login
+    public users_tbl Login(String username,String password) throws Exception;
+
     //Inesert
     public boolean insert(String name,String family,String username,String password,String email,String phone);
 
