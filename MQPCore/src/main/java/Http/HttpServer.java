@@ -174,6 +174,9 @@ public class HttpServer
             case "/Login":
                 response=new HttpHandlerController().Login(parametrs_json);
                 break;
+            case "/GetUser":
+                response=new HttpHandlerController().GetUser(parametrs_json);
+                break;
             default:
                 response=new ResponseModel("404","text/json","{\"message\":\"not found\"}");
                 break;

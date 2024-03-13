@@ -2,6 +2,7 @@ package Http;
 
 import Functions.TextEncript;
 import Http.Models.ResponseModel;
+import Http.Models.UserAuthModel;
 import Models.users_tbl;
 import Services.Users.Users_Service;
 import org.json.JSONObject;
@@ -17,7 +18,7 @@ public class HttpHandlerController
     //Get index end
 
 
-    //Get index start
+    //Get login start
     public ResponseModel Login(JSONObject parametrs)
     {
         try
@@ -44,7 +45,24 @@ public class HttpHandlerController
             return new ResponseModel("200","text/html","{\"message\":\"user not found\"}");
         }
     }
-    //Get index end
+    //Get login end
+
+
+    //Get user data from token start
+    public ResponseModel GetUser(JSONObject parametrs)
+    {
+        try
+        {
+            UserAuthModel usr = new UserAuthModel(TextEncript.TextDecript(parametrs.get("token").toString()).toString());
+            return new ResponseModel("200","text/html","hello "+usr.getUsername());
+        }
+        catch (Exception e)
+        {
+            //get usernot found
+            return new ResponseModel("200","text/html","{\"message\":\"user not found\"}");
+        }
+    }
+    //Get user data from token end
 
 
 }
