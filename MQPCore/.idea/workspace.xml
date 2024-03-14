@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72d36cd5-a690-468a-a6f7-b0c242755d33" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Http/Models/UserAuthModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Http/HttpHandlerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Http/HttpHandlerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Http/HttpServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Http/HttpServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Http/HttpHandlerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Http/HttpHandlerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Http/HttpServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Http/HttpServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Http/Models/UserAuthModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Http/Models/UserAuthModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Services/Mail/Mail_Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Services/Mail/Mail_Service.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

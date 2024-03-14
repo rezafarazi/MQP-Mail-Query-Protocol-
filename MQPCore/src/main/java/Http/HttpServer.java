@@ -1,7 +1,10 @@
 package Http;
 
 import Conf.Config;
+import Functions.TextEncript;
 import Http.Models.ResponseModel;
+import Http.Models.UserAuthModel;
+import com.sun.net.httpserver.Headers;
 import org.json.JSONObject;
 
 import java.io.DataInputStream;
@@ -54,7 +57,7 @@ public class HttpServer
                 Socket request=HttpSocket.accept();
 
                 //Get Log
-                System.out.println("New Request from "+request.getRemoteSocketAddress().toString());
+//                System.out.println("New Request from "+request.getRemoteSocketAddress().toString());
 
                 //Get request and response data stream
                 DataInputStream input=new DataInputStream(request.getInputStream());
@@ -96,22 +99,26 @@ public class HttpServer
     //Request handler function start
     public ResponseModel GetHandleRequest(String HttpRequest)
     {
+//        System.out.println(HttpRequest);
+
         String []requests=HttpRequest.split("\n");
 
         //First line splite
         String []FirstLine=requests[0].split(" ");
 
-        System.out.println(FirstLine[0]);
+//        System.out.println(FirstLine[0]);
+
+        JSONObject Headers = GetHttpHeaders(HttpRequest);
 
         if(FirstLine[0].equals("POST"))
         {
-            System.out.println("Post request");
-            return GetHandlePostMethod(requests);
+            System.out.println("Post request : "+requests[0]);
+            return GetHandlePostMethod(requests,Headers);
         }
         else if(FirstLine[0].equals("GET"))
         {
-            System.out.println("Get request");
-            return GetHandleGetMethod(requests);
+            System.out.println("Get request : "+requests[0]);
+            return GetHandleGetMethod(requests,Headers);
         }
         else
         {
@@ -121,14 +128,51 @@ public class HttpServer
     }
     //Request handler function end
 
+    //Get all headers function start
+    public JSONObject GetHttpHeaders(String HttpRequest)
+    {
+        JSONObject result=new JSONObject();
+
+        //Get split all http request by "\n"
+        String []split_request=HttpRequest.split("\n");
+
+        for (int i=1;i<split_request.length;i++)
+        {
+            try
+            {
+//                System.out.println("Header " + split_request[i].split(":")[0] + "-" + split_request[i].split(":")[1]);
+                result.put(split_request[i].split(":")[0].trim(),split_request[i].split(":")[1].trim());
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+//        System.out.println(result.toString());
+        return result;
+    }
+    //Get all headers function end
 
     //Get handle Get request function start
-    public ResponseModel GetHandleGetMethod(String []requests)
+    public ResponseModel GetHandleGetMethod(String []requests,JSONObject Header)
     {
         ResponseModel response=new ResponseModel();
 
         //Get splite first line
         String request_path=requests[0].split(" ")[1];
+
+        //parametrs
+        JSONObject parametrs_json=new JSONObject();
+        if(request_path.toString().contains("?"))
+        {
+            String all_parametrs = request_path.toString().split("\\?")[1];
+            String[] parametrs = all_parametrs.split("&");
+
+            for (int i = 0; i < parametrs.length; i++) {
+                String data[] = parametrs[i].split("=");
+                parametrs_json.put(data[0], data[1]);
+            }
+        }
 
         //Get Routes
         switch (request_path)
@@ -145,9 +189,8 @@ public class HttpServer
     }
     //Get handle Get request function end
 
-
     //Get handle Post request function start
-    public ResponseModel GetHandlePostMethod(String []requests)
+    public ResponseModel GetHandlePostMethod(String []requests,JSONObject Header)
     {
         ResponseModel response=new ResponseModel();
 
@@ -156,13 +199,15 @@ public class HttpServer
 
         //parametrs
         JSONObject parametrs_json=new JSONObject();
-        String all_parametrs=request_path.toString().split("\\?")[1];
-        String []parametrs=all_parametrs.split("&");
-
-        for(int i=0;i<parametrs.length;i++)
+        if(request_path.toString().contains("?"))
         {
-            String data[]=parametrs[i].split("=");
-            parametrs_json.put(data[0],data[1]);
+            String all_parametrs = request_path.toString().split("\\?")[1];
+            String[] parametrs = all_parametrs.split("&");
+
+            for (int i = 0; i < parametrs.length; i++) {
+                String data[] = parametrs[i].split("=");
+                parametrs_json.put(data[0], data[1]);
+            }
         }
 
         //Get Routes
@@ -175,7 +220,13 @@ public class HttpServer
                 response=new HttpHandlerController().Login(parametrs_json);
                 break;
             case "/GetUser":
-                response=new HttpHandlerController().GetUser(parametrs_json);
+                if(GetApiAuthCheck(Header))
+                    response=new HttpHandlerController().GetUser(parametrs_json,Header);
+                else
+                    response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
+                break;
+            case "/GetAllUserMails":
+                response=new HttpHandlerController().GetAllUserMails(parametrs_json,Header);
                 break;
             default:
                 response=new ResponseModel("404","text/json","{\"message\":\"not found\"}");
@@ -185,5 +236,22 @@ public class HttpServer
         return response;
     }
     //Get handle Post request function end
+
+    //Get auth check middleware function start
+    public boolean GetApiAuthCheck(JSONObject Headers)
+    {
+        try {
+            String AuthToken = Headers.get("Auth").toString();
+            new UserAuthModel(AuthToken);
+            return true;
+        }
+        catch (Exception e)
+        {
+            System.out.println("Auth Error");
+        }
+
+        return false;
+    }
+    //Get auth check middleware function end
 
 }

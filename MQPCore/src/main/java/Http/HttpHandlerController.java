@@ -3,9 +3,14 @@ package Http;
 import Functions.TextEncript;
 import Http.Models.ResponseModel;
 import Http.Models.UserAuthModel;
+import Models.mail_tbl;
 import Models.users_tbl;
+import Services.Mail.Mail_Service;
 import Services.Users.Users_Service;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class HttpHandlerController
 {
@@ -49,11 +54,11 @@ public class HttpHandlerController
 
 
     //Get user data from token start
-    public ResponseModel GetUser(JSONObject parametrs)
+    public ResponseModel GetUser(JSONObject parametrs,JSONObject Header)
     {
         try
         {
-            UserAuthModel usr = new UserAuthModel(TextEncript.TextDecript(parametrs.get("token").toString()).toString());
+            UserAuthModel usr = new UserAuthModel(Header.get("Auth").toString());
             return new ResponseModel("200","text/html","hello "+usr.getUsername());
         }
         catch (Exception e)
@@ -63,6 +68,25 @@ public class HttpHandlerController
         }
     }
     //Get user data from token end
+
+
+    //Get all user mails start
+    public ResponseModel GetAllUserMails(JSONObject parametrs,JSONObject Header)
+    {
+        try
+        {
+            UserAuthModel usr = new UserAuthModel(Header.get("Auth").toString());
+            List<mail_tbl> Mails = new Mail_Service().GetMailsByUserName(usr.getUsername());
+            JSONArray jsonarray_result=new JSONArray(Mails);
+            return new ResponseModel("200","text/html",jsonarray_result.toString());
+        }
+        catch (Exception e)
+        {
+            //get usernot found
+            return new ResponseModel("403","text/html","{\"message\":\"user not access\"}");
+        }
+    }
+    //Get all user mails end
 
 
 }

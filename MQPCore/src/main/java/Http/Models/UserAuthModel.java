@@ -1,5 +1,6 @@
 package Http.Models;
 
+import Functions.TextEncript;
 import org.json.JSONObject;
 
 public class UserAuthModel
@@ -26,7 +27,7 @@ public class UserAuthModel
 
     public UserAuthModel(String json)
     {
-        JSONObject js_user=new JSONObject(json);
+        JSONObject js_user=new JSONObject(TextEncript.TextDecript(json));
 
         this.id = Integer.parseInt(js_user.get("id").toString());
         this.name = js_user.get("name").toString();
