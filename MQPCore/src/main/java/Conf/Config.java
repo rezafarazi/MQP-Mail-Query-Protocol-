@@ -15,6 +15,7 @@ public class Config
     public static int FilePort;
     public static int HttpPort;
     public static int SeenPort;
+    public static int FileSize;
 
     public Config()
     {
@@ -30,6 +31,9 @@ public class Config
 
             //File prot conf
             FilePort=Integer.parseInt(properties.getProperty("file_port").toString());
+
+            //File size conf
+            FileSize=Integer.parseInt(properties.getProperty("file_size_lim").toString());
 
             //Seen port conf
             SeenPort=Integer.parseInt(properties.getProperty("seen_delete_port").toString());

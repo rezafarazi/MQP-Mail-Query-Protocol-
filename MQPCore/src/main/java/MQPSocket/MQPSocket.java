@@ -29,7 +29,6 @@ public class MQPSocket
     public static ServerSocket Seen_Delete_S_Socket;
 
 
-
     //Constractor start
     public MQPSocket()
     {
@@ -66,9 +65,6 @@ public class MQPSocket
 
     }
     //Constractor end
-
-
-
 
     //Get Mail Socket start
     void MailSocket()
@@ -161,9 +157,6 @@ public class MQPSocket
     }
     //Get Mail Socket end
 
-
-
-
     //Get File Socket start
     void FileSocket()
     {
@@ -202,14 +195,14 @@ public class MQPSocket
                         {
                             //Get read condition
                             long size=DIS.readLong();
-                            byte []file_name_byte=new byte[4096];
+                            byte []file_name_byte=new byte[Config.FileSize];
                             DIS.read(file_name_byte);
                             String File_name = new String(file_name_byte);
 
                             File f=new File(Config.Root_Dir+"/"+File_name);
                             FileOutputStream FOS=new FileOutputStream(f);
 
-                            byte []buffer=new byte[4096];
+                            byte []buffer=new byte[Config.FileSize];
                             int bytes=0;
                             while(size > 0 && (bytes=DIS.read(buffer,0,buffer.length))!=-1){
                                 FOS.write(buffer,0,bytes);
@@ -238,9 +231,6 @@ public class MQPSocket
         }
     }
     //Get File Socket end
-
-
-
 
     //Get File Socket start
     void SeenSocket()
@@ -318,9 +308,6 @@ public class MQPSocket
     }
     //Get File Socket end
 
-
-
-
     //Get resivce new files start
     void NewFilesCondition(Socket socket,DataInputStream DIS,DataOutputStream DOS,JSONObject Data)
     {
@@ -381,8 +368,6 @@ public class MQPSocket
     }
     //Get resivce new files end
 
-
-
     //Get new condition function start
     void NewMailCondition(Socket socket,DataInputStream DIS,DataOutputStream DOS,JSONObject Data)
     {
@@ -412,8 +397,6 @@ public class MQPSocket
         }
     }
     //Get new condition function end
-
-
 
     //Get update condition function start
     void UpdateMailCondition(Socket socket,DataInputStream DIS,DataOutputStream DOS,JSONObject Data)
@@ -446,8 +429,5 @@ public class MQPSocket
         }
     }
     //Get update condition function end
-
-
-
 
 }
