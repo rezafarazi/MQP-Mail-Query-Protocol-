@@ -5,4 +5,7 @@
 MQP (Mail Query Protocol) Core 
 
 # MPQ (Mail Query protocol)
-### An distributed protocol on network share mail and message
+### A network protocol for sending and receiving messages and Mails over the Internet
+
+# How setup MQP?
+### 1 - Set MQP Port
