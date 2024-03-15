@@ -7,8 +7,8 @@ public class Config
 {
 
     public static String Root_Dir;
-
     public static String JEncrptKey;
+    public static String HttpLogFileAddress;
 
     //Run port number
     public static int Port;
@@ -40,9 +40,11 @@ public class Config
             //Root folder conf
             Root_Dir=properties.getProperty("rootdir").toString();
 
+            //Get http log file address
+            HttpLogFileAddress=properties.getProperty("http_log_file_address").toString();
+
             //Json encript key
             JEncrptKey=properties.getProperty("http_user_encript_key").toString();
-
 
         }
         catch (Exception e)

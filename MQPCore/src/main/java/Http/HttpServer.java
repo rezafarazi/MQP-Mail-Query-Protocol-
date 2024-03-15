@@ -7,8 +7,7 @@ import Http.Models.UserAuthModel;
 import com.sun.net.httpserver.Headers;
 import org.json.JSONObject;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -36,7 +35,6 @@ public class HttpServer
 
     }
     //Constrator function end
-
 
     //Get begin server socket start
     public void BeginHttp()
@@ -95,7 +93,6 @@ public class HttpServer
     }
     //Get begin server socket end
 
-
     //Request handler function start
     public ResponseModel GetHandleRequest(String HttpRequest)
     {
@@ -113,11 +110,13 @@ public class HttpServer
         if(FirstLine[0].equals("POST"))
         {
             System.out.println("Post request : "+requests[0]);
+            AddLog("Post request : "+requests[0]);
             return GetHandlePostMethod(requests,Headers);
         }
         else if(FirstLine[0].equals("GET"))
         {
             System.out.println("Get request : "+requests[0]);
+            AddLog("Get request : "+requests[0]);
             return GetHandleGetMethod(requests,Headers);
         }
         else
@@ -253,5 +252,31 @@ public class HttpServer
         return false;
     }
     //Get auth check middleware function end
+
+    //Http log file function start
+    public void AddLog(String request)
+    {
+        try
+        {
+            //Initilze log file
+            File LogFile=new File(Config.HttpLogFileAddress);
+            LogFile.createNewFile();
+
+            //Write request log on file
+            if(LogFile.canWrite())
+            {
+                PrintWriter Writer=new PrintWriter(new BufferedWriter(new FileWriter(LogFile,true)));
+                Writer.append(request + "\n\r******************************************************************************************************************************\n\r");
+                Writer.close();
+            }
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error on Logfile : "+e.getMessage());
+        }
+    }
+    //Http log file function end
+
 
 }
