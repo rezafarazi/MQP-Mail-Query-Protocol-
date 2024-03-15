@@ -9,6 +9,9 @@ MQP (Mail Query Protocol) Core
 
 # How setup MQP?
 ### 1 - Install JAVA9 on your server
+
+https://www.oracle.com/java/technologies/javase/javase9-archive-downloads.html
+
 ### 2 - Clone MQP from github or download an relase from github
 ```
 git clone https://github.com/rezafarazi/MQP-Mail-Query-Protocol-.git
