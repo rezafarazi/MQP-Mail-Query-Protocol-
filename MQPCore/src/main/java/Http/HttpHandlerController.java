@@ -1,5 +1,6 @@
 package Http;
 
+import Functions.Hash;
 import Functions.TextEncript;
 import Http.Models.ResponseModel;
 import Http.Models.UserAuthModel;
@@ -10,6 +11,9 @@ import Services.Users.Users_Service;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class HttpHandlerController
@@ -53,6 +57,39 @@ public class HttpHandlerController
     //Get login end
 
 
+    //Get signup new user start
+    public ResponseModel Signup(JSONObject parametrs,JSONObject Header)
+    {
+        try
+        {
+            if(!new Users_Service().CheckUserExist(parametrs.get("username").toString()))
+            {
+                //Add to database
+                new Users_Service().insert(
+                        parametrs.get("name").toString(),
+                        parametrs.get("family").toString(),
+                        parametrs.get("username").toString(),
+                        parametrs.get("password").toString(),
+                        parametrs.get("email").toString(),
+                        parametrs.get("phone").toString()
+                );
+
+                return new ResponseModel("200","text/html","{\"message\":\"user created\"}");
+            }
+            else
+            {
+                return new ResponseModel("403","text/html","{\"message\":\"user exist\"}");
+            }
+        }
+        catch (Exception e)
+        {
+            //get usernot found
+            return new ResponseModel("403","text/html","{\"message\":\"user not found\"}");
+        }
+    }
+    //Get signup new user end
+
+
     //Get user data from token start
     public ResponseModel GetUser(JSONObject parametrs,JSONObject Header)
     {
@@ -64,7 +101,7 @@ public class HttpHandlerController
         catch (Exception e)
         {
             //get usernot found
-            return new ResponseModel("200","text/html","{\"message\":\"user not found\"}");
+            return new ResponseModel("403","text/html","{\"message\":\"user not found\"}");
         }
     }
     //Get user data from token end
