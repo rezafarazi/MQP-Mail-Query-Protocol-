@@ -54,33 +54,16 @@ public class HttpServer
                 //Get new request
                 Socket request=HttpSocket.accept();
 
-                //Get Log
-//                System.out.println("New Request from "+request.getRemoteSocketAddress().toString());
+                //Get handle multi request
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
 
-                //Get request and response data stream
-                DataInputStream input=new DataInputStream(request.getInputStream());
-                DataOutputStream output=new DataOutputStream(request.getOutputStream());
+                        //Get handle request
+                        GetSocketHandller(request);
 
-                //Get read request from user
-                byte []request_text=new byte[4096];
-                input.read(request_text);
-                String request_value=new String(request_text);
-
-//                //Get Log
-//                System.out.println("Http reqeust start ************************************************** ");
-//                System.out.println(request_value);
-//                System.out.println("Http reqeust end ************************************************** ");
-
-                //Get handle request
-                ResponseModel response=GetHandleRequest(request_value);
-
-                //get response
-                output.write(("HTTP/1.1 "+response.getStatusCode()+"\nContent-type:"+response.getStatusCode()+"\n\n"+response.getContent()).getBytes());
-
-                //Get close all socket and streams
-                input.close();
-                output.close();
-                request.close();
+                    }
+                }).start();
 
             }
 
@@ -92,6 +75,49 @@ public class HttpServer
         }
     }
     //Get begin server socket end
+
+
+    public void GetSocketHandller(Socket request)
+    {
+        try
+        {
+
+            //Get Log
+//        System.out.println("New Request from "+request.getRemoteSocketAddress().toString());
+
+            //Get request and response data stream
+            DataInputStream input = new DataInputStream(request.getInputStream());
+            DataOutputStream output = new DataOutputStream(request.getOutputStream());
+
+            //Get read request from user
+            byte[] request_text = new byte[4096];
+            input.read(request_text);
+            String request_value = new String(request_text);
+
+//        //Get Log
+//        System.out.println("Http reqeust start ************************************************** ");
+//        System.out.println(request_value);
+//        System.out.println("Http reqeust end ************************************************** ");
+
+            //Get handle request
+            ResponseModel response = GetHandleRequest(request_value);
+
+            //get response
+            output.write(("HTTP/1.1 " + response.getStatusCode() + "\nContent-type:" + response.getStatusCode() + "\n\n" + response.getContent()).getBytes());
+
+            //Get close all socket and streams
+            input.close();
+            output.close();
+            request.close();
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error on http request handller " + e.getMessage());
+        }
+
+    }
+
 
     //Request handler function start
     public ResponseModel GetHandleRequest(String HttpRequest)
