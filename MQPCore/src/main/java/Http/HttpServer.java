@@ -102,8 +102,17 @@ public class HttpServer
             //Get handle request
             ResponseModel response = GetHandleRequest(request_value);
 
+            //Http response
+            String HttpResponse="HTTP/1.1 " + response.getStatusCode()
+                    + "\nContent-type:" + response.getContentType()
+                    + "\nAccess-Control-Allow-Origin : * "
+                    + "\nAccess-Control-Allow-Headers : origin, content-type, accept, authorization "
+                    + "\nAccess-Control-Allow-Credentials : true "
+                    + "\nAccess-Control-Allow-Methods : GET, POST, PUT, DELETE, OPTIONS, HEAD "
+                    + "\n\n" + response.getContent();
+
             //get response
-            output.write(("HTTP/1.1 " + response.getStatusCode() + "\nContent-type:" + response.getStatusCode() + "\n\n" + response.getContent()).getBytes());
+            output.write(HttpResponse.getBytes());
 
             //Get close all socket and streams
             input.close();
@@ -137,13 +146,13 @@ public class HttpServer
         {
             System.out.println("Post request : "+requests[0]);
             AddLog("Post request : "+requests[0]);
-            return GetHandlePostMethod(requests,Headers);
+            return GetHandlePostMethod(HttpRequest,requests,Headers);
         }
         else if(FirstLine[0].equals("GET"))
         {
             System.out.println("Get request : "+requests[0]);
             AddLog("Get request : "+requests[0]);
-            return GetHandleGetMethod(requests,Headers);
+            return GetHandleGetMethod(HttpRequest,requests,Headers);
         }
         else
         {
@@ -179,7 +188,7 @@ public class HttpServer
     //Get all headers function end
 
     //Get handle Get request function start
-    public ResponseModel GetHandleGetMethod(String []requests,JSONObject Header)
+    public ResponseModel GetHandleGetMethod(String request,String []requests,JSONObject Header)
     {
         ResponseModel response=new ResponseModel();
 
@@ -215,7 +224,7 @@ public class HttpServer
     //Get handle Get request function end
 
     //Get handle Post request function start
-    public ResponseModel GetHandlePostMethod(String []requests,JSONObject Header)
+    public ResponseModel GetHandlePostMethod(String request,String []requests,JSONObject Header)
     {
         ResponseModel response=new ResponseModel();
 
@@ -223,16 +232,27 @@ public class HttpServer
         String request_path=requests[0].split(" ")[1];
 
         //parametrs
-        JSONObject parametrs_json=new JSONObject();
-        if(request_path.toString().contains("?"))
-        {
-            String all_parametrs = request_path.toString().split("\\?")[1];
-            String[] parametrs = all_parametrs.split("&");
+//        JSONObject parametrs_json=new JSONObject();
+//        if(request_path.toString().contains("?"))
+//        {
+//            String all_parametrs = request_path.toString().split("\\?")[1];
+//            String[] parametrs = all_parametrs.split("&");
+//
+//            for (int i = 0; i < parametrs.length; i++) {
+//                String data[] = parametrs[i].split("=");
+//                parametrs_json.put(data[0], data[1]);
+//            }
+//        }
 
-            for (int i = 0; i < parametrs.length; i++) {
-                String data[] = parametrs[i].split("=");
-                parametrs_json.put(data[0], data[1]);
-            }
+
+//        System.out.println(request.split("\n")[request.split("\n").length-1].trim().toString());
+
+        JSONObject parametrs_json=new JSONObject();
+        String[] parametrs = request.split("\n")[request.split("\n").length-1].trim().toString().split("&");
+
+        for (int i = 0; i < parametrs.length; i++) {
+            String data[] = parametrs[i].split("=");
+            parametrs_json.put(data[0], data[1]);
         }
 
         //Get Routes
