@@ -1,5 +1,6 @@
 package Services.Mail;
 
+import Conf.Config;
 import Models.mail_tbl;
 import Models.users_tbl;
 import Repositories.mail_repo;
@@ -118,7 +119,7 @@ public class Mail_Service implements mail_repo
     public List<mail_tbl> GetMailsByUserName(String username) throws Exception
     {
         users_tbl user = new Users_Service().GetUserByUsername(username);
-        List<mail_tbl> commentList=session.createQuery("from mail_tbl where users_id="+user.getId()+" group by from_user order by id asc").getResultList();
+        List<mail_tbl> commentList=session.createQuery("from mail_tbl where from_user like '"+ user.getUsername() +"@"+Config.DomainAddress+"' or to_user like '"+user.getUsername()+"@"+Config.DomainAddress+"' group by from_user order by id asc").getResultList();
         return commentList;
     }
     //Get all user mail with username end

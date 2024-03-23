@@ -6,6 +6,7 @@ import java.util.Properties;
 public class Config
 {
 
+    public static String DomainAddress;
     public static String Root_Dir;
     public static String JEncrptKey;
     public static String HttpLogFileAddress;
@@ -25,6 +26,9 @@ public class Config
             FileReader reader = new FileReader("Protocol.properties");
             Properties properties = new Properties();
             properties.load(reader);
+
+            //Domain address conf
+            DomainAddress=properties.getProperty("domain_address").toString();
 
             //Prot conf
             Port=Integer.parseInt(properties.getProperty("port").toString());
