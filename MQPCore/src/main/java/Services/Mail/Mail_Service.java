@@ -102,12 +102,23 @@ public class Mail_Service implements mail_repo
     //Get mail with mail id end
 
 
+    //Get mail box by username start
+    @Override
+    public List<mail_tbl> GetMailBoxByUsername(String username) throws Exception
+    {
+        users_tbl user = new Users_Service().GetUserByUsername(username);
+        List<mail_tbl> commentList=session.createQuery("from mail_tbl where users_id="+user.getId()).getResultList();
+        return commentList;
+    }
+    //Get mail box by username end
+
+
     //Get all user mail with username start
     @Override
     public List<mail_tbl> GetMailsByUserName(String username) throws Exception
     {
         users_tbl user = new Users_Service().GetUserByUsername(username);
-        List<mail_tbl> commentList=session.createQuery("from mail_tbl where users_id="+user.getId()).getResultList();
+        List<mail_tbl> commentList=session.createQuery("from mail_tbl where users_id="+user.getId()+" group by from_user order by id asc").getResultList();
         return commentList;
     }
     //Get all user mail with username end

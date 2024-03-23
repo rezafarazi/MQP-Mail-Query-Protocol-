@@ -25,6 +25,8 @@ public class mail_tbl
 
     private String from_user;
 
+    private String to_user;
+
     private int seen;
 
     private String From_Ip;
@@ -68,8 +70,8 @@ public class mail_tbl
         this.content = content;
     }
 
-    public users_tbl getUser_id() {
-        return users_id;
+    public String getUser_id() {
+        return users_id.getUsername();
     }
 
     public void setUser_id(users_tbl user_id) {
@@ -98,6 +100,14 @@ public class mail_tbl
 
     public void setFrom_user(String from_user) {
         this.from_user = from_user;
+    }
+
+    public String getTo_user() {
+        return to_user;
+    }
+
+    public void setTo_user(String to_user) {
+        this.to_user = to_user;
     }
 
     public int getSeen() {

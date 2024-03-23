@@ -108,4 +108,19 @@ public class UserAuthModel
         this.phone = phone;
     }
 
+    @Override
+    public String toString()
+    {
+        JSONObject result = new JSONObject();
+
+        result.put("id",this.id);
+        result.put("name",this.name);
+        result.put("family",this.family);
+        result.put("username",this.username);
+        result.put("email",this.email);
+        result.put("date",this.date);
+        result.put("phone",this.phone);
+
+        return result.toString();
+    }
 }

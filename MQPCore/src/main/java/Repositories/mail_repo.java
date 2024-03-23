@@ -21,6 +21,10 @@ public interface mail_repo
     public mail_tbl GetMailById(int id);
     //Get mail with mail id end
 
+    //Get user mailbox by username start
+    public List<mail_tbl> GetMailBoxByUsername(String username) throws Exception;
+    //Get user mailbox by username end
+
     //Get all user mail with username start
     public List<mail_tbl> GetMailsByUserName(String username) throws Exception;
     //Get all user mail with username end

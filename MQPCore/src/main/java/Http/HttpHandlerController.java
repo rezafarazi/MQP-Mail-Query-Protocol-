@@ -96,7 +96,7 @@ public class HttpHandlerController
         try
         {
             UserAuthModel usr = new UserAuthModel(Header.get("Auth").toString());
-            return new ResponseModel("200","text/html","hello "+usr.getUsername());
+            return new ResponseModel("200","text/html",usr.toString());
         }
         catch (Exception e)
         {

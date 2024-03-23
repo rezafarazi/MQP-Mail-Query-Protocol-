@@ -126,7 +126,7 @@ public class HttpServer
     //Request handler function start
     public ResponseModel GetHandleRequest(String HttpRequest)
     {
-        System.out.println(HttpRequest);
+//        System.out.println(HttpRequest);
 
         String []requests=HttpRequest.split("\n");
 
@@ -240,16 +240,16 @@ public class HttpServer
         }
 
 
-        if(request.contains("&") || request.contains("\n\n"))
-        {
-            String[] parametrs = request.split("\n")[request.split("\n").length - 1].trim().toString().split("&");
-
-            for (int i = 0; i < parametrs.length; i++)
-            {
-                String data[] = parametrs[i].split("=");
-                parametrs_json.put(data[0], data[1]);
-            }
-        }
+//        if(request.contains("&") || request.contains("\n\n"))
+//        {
+//            String[] parametrs = request.split("\n")[request.split("\n").length - 1].trim().toString().split("&");
+//
+//            for (int i = 0; i < parametrs.length; i++)
+//            {
+//                String data[] = parametrs[i].split("=");
+//                parametrs_json.put(data[0], data[1]);
+//            }
+//        }
 
         //Get Routes
         switch (request_path.split("\\?")[0])
@@ -269,14 +269,11 @@ public class HttpServer
                 else
                     response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
                 break;
-            case "/GetMailsList":
+            case "/GetMailBox":
                 if(GetApiAuthCheck(Header))
-                    response=new HttpHandlerController().GetUser(parametrs_json,Header);
+                    response=new HttpHandlerController().GetAllUserMails(parametrs_json,Header);
                 else
                     response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
-                break;
-            case "/GetAllUserMails":
-                response=new HttpHandlerController().GetAllUserMails(parametrs_json,Header);
                 break;
             default:
                 response=new ResponseModel("404","text/json","{\"message\":\"not found\"}");
