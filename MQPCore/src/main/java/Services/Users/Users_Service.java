@@ -96,7 +96,7 @@ public class Users_Service implements users_repo
         }
         else
         {
-            System.out.println("false");
+            System.out.println("User exist");
             return false;
         }
 

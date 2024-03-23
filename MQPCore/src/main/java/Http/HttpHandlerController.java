@@ -65,7 +65,7 @@ public class HttpHandlerController
             if(!new Users_Service().CheckUserExist(parametrs.get("username").toString()))
             {
                 //Add to database
-                new Users_Service().insert(
+                boolean new_user=new Users_Service().insert(
                         parametrs.get("name").toString(),
                         parametrs.get("family").toString(),
                         parametrs.get("username").toString(),
@@ -74,7 +74,14 @@ public class HttpHandlerController
                         parametrs.get("phone").toString()
                 );
 
-                return new ResponseModel("200","text/html","{\"message\":\"user created\"}");
+                if(new_user)
+                {
+                    return new ResponseModel("200", "text/html", "{\"message\":\"user created\"}");
+                }
+                else
+                {
+                    return new ResponseModel("200", "text/html", "{\"message\":\"user exist\"}");
+                }
             }
             else
             {
