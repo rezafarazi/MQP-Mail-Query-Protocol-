@@ -29,6 +29,10 @@ public interface mail_repo
     public List<mail_tbl> GetMailsByUserName(String username) throws Exception;
     //Get all user mail with username end
 
+    //Get all mails in a user and other user start
+    public List<mail_tbl> GetUserAndOtherUserMails(String username1,String username2) throws Exception;
+    //Get all mails in a user and other user end
+
     //Get seen mail start
     public void SeenMail(int id, String IP) throws Exception;
     //Get seen mail end

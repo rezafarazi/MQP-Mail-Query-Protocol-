@@ -275,6 +275,12 @@ public class HttpServer
                 else
                     response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
                 break;
+            case "/GetMailsOfUser":
+                if(GetApiAuthCheck(Header))
+                    response=new HttpHandlerController().GetUserMails(parametrs_json,Header);
+                else
+                    response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
+                break;
             default:
                 response=new ResponseModel("404","text/json","{\"message\":\"not found\"}");
                 break;

@@ -126,4 +126,23 @@ public class HttpHandlerController
     //Get all user mails end
 
 
+    //Get all user mails start
+    public ResponseModel GetUserMails(JSONObject parametrs,JSONObject Header)
+    {
+        try
+        {
+            UserAuthModel usr = new UserAuthModel(Header.get("Auth").toString());
+            List<mail_tbl> Mails = new Mail_Service().GetUserAndOtherUserMails(usr.getUsername(),parametrs.get("username").toString());
+            JSONArray jsonarray_result=new JSONArray(Mails);
+            return new ResponseModel("200","text/html",jsonarray_result.toString());
+        }
+        catch (Exception e)
+        {
+            //get usernot found
+            return new ResponseModel("403","text/html","{\"message\":\"user not access\"}");
+        }
+    }
+    //Get all user mails end
+
+
 }

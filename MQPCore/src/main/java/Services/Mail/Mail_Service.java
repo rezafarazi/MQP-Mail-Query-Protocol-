@@ -118,11 +118,20 @@ public class Mail_Service implements mail_repo
     @Override
     public List<mail_tbl> GetMailsByUserName(String username) throws Exception
     {
-        users_tbl user = new Users_Service().GetUserByUsername(username);
-        List<mail_tbl> commentList=session.createQuery("from mail_tbl where from_user like '"+ user.getUsername() +"@"+Config.DomainAddress+"' or to_user like '"+user.getUsername()+"@"+Config.DomainAddress+"' group by from_user order by id asc").getResultList();
+        List<mail_tbl> commentList=session.createQuery("from mail_tbl where from_user like '"+ username +"@"+Config.DomainAddress+"' or to_user like '"+username+"@"+Config.DomainAddress+"' group by from_user order by id asc").getResultList();
         return commentList;
     }
     //Get all user mail with username end
+
+
+    //Get all mails in a user and other user start
+    @Override
+    public List<mail_tbl> GetUserAndOtherUserMails(String username1,String username2) throws Exception
+    {
+        List<mail_tbl> commentList=session.createQuery("from mail_tbl where (from_user like '"+ username1 +"@"+Config.DomainAddress+"' and to_user like '"+username2+"') or (from_user like '"+ username2 +"' and to_user like '"+username1+"@"+Config.DomainAddress+"')").getResultList();
+        return commentList;
+    }
+    //Get all mails in a user and other user end
 
 
     //Get seen mail start
