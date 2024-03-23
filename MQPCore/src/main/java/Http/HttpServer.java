@@ -94,11 +94,6 @@ public class HttpServer
             input.read(request_text);
             String request_value = new String(request_text);
 
-//        //Get Log
-//        System.out.println("Http reqeust start ************************************************** ");
-//        System.out.println(request_value);
-//        System.out.println("Http reqeust end ************************************************** ");
-
             //Get handle request
             ResponseModel response = GetHandleRequest(request_value);
 
@@ -131,7 +126,7 @@ public class HttpServer
     //Request handler function start
     public ResponseModel GetHandleRequest(String HttpRequest)
     {
-//        System.out.println(HttpRequest);
+        System.out.println(HttpRequest);
 
         String []requests=HttpRequest.split("\n");
 
@@ -142,7 +137,7 @@ public class HttpServer
 
         JSONObject Headers = GetHttpHeaders(HttpRequest);
 
-        if(FirstLine[0].equals("POST"))
+        if(FirstLine[0].equals("POST") || FirstLine[0].equals("OPTIONS"))
         {
             System.out.println("Post request : "+requests[0]);
             AddLog("Post request : "+requests[0]);
@@ -232,27 +227,28 @@ public class HttpServer
         String request_path=requests[0].split(" ")[1];
 
         //parametrs
-//        JSONObject parametrs_json=new JSONObject();
-//        if(request_path.toString().contains("?"))
-//        {
-//            String all_parametrs = request_path.toString().split("\\?")[1];
-//            String[] parametrs = all_parametrs.split("&");
-//
-//            for (int i = 0; i < parametrs.length; i++) {
-//                String data[] = parametrs[i].split("=");
-//                parametrs_json.put(data[0], data[1]);
-//            }
-//        }
-
-
-//        System.out.println(request.split("\n")[request.split("\n").length-1].trim().toString());
-
         JSONObject parametrs_json=new JSONObject();
-        String[] parametrs = request.split("\n")[request.split("\n").length-1].trim().toString().split("&");
+        if(request_path.toString().contains("?"))
+        {
+            String all_parametrs = request_path.toString().split("\\?")[1];
+            String[] parametrs = all_parametrs.split("&");
 
-        for (int i = 0; i < parametrs.length; i++) {
-            String data[] = parametrs[i].split("=");
-            parametrs_json.put(data[0], data[1]);
+            for (int i = 0; i < parametrs.length; i++) {
+                String data[] = parametrs[i].split("=");
+                parametrs_json.put(data[0], data[1]);
+            }
+        }
+
+
+        if(request.contains("&") || request.contains("\n\n"))
+        {
+            String[] parametrs = request.split("\n")[request.split("\n").length - 1].trim().toString().split("&");
+
+            for (int i = 0; i < parametrs.length; i++)
+            {
+                String data[] = parametrs[i].split("=");
+                parametrs_json.put(data[0], data[1]);
+            }
         }
 
         //Get Routes
@@ -273,6 +269,12 @@ public class HttpServer
                 else
                     response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
                 break;
+            case "/GetMailsList":
+                if(GetApiAuthCheck(Header))
+                    response=new HttpHandlerController().GetUser(parametrs_json,Header);
+                else
+                    response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
+                break;
             case "/GetAllUserMails":
                 response=new HttpHandlerController().GetAllUserMails(parametrs_json,Header);
                 break;
@@ -288,7 +290,8 @@ public class HttpServer
     //Get auth check middleware function start
     public boolean GetApiAuthCheck(JSONObject Headers)
     {
-        try {
+        try
+        {
             String AuthToken = Headers.get("Auth").toString();
             new UserAuthModel(AuthToken);
             return true;
