@@ -185,7 +185,7 @@ public class HttpHandlerController
             try
             {
                 //Get send mail
-                MQPSocket.SendMQPMail(
+                int MailId=MQPSocket.SendMQPMail(
                         parametrs.get("address").toString().split("@")[1],
                         parametrs.get("address").toString(),
                         usr.getUsername()+"@"+Config.DomainAddress,
@@ -193,14 +193,15 @@ public class HttpHandlerController
                         parametrs.get("content").toString()
                 );
 
-//                new Mail_Service().InsertnewMail(
-//                        parametrs.get("title").toString(),
-//                        parametrs.get("content").toString(),
-//                        new Users_Service().GetUserByUsername(usr.getUsername()),
-//                        usr.getUsername() + "@" + Config.DomainAddress,
-//                        parametrs.get("address").toString(),
-//                        Config.DomainAddress
-//                );
+                new Mail_Service().InsertnewMailById(
+                        MailId,
+                        parametrs.get("title").toString(),
+                        parametrs.get("content").toString(),
+                        new Users_Service().GetUserByUsername(usr.getUsername()),
+                        usr.getUsername() + "@" + Config.DomainAddress,
+                        parametrs.get("address").toString(),
+                        Config.DomainAddress
+                );
             }
             catch (Exception e)
             {

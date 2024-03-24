@@ -45,15 +45,11 @@ public class Mail_Service implements mail_repo
     @Override
     public mail_tbl InsertnewMail(String title, String content, users_tbl user, String fromuser,String touser,String IP)
     {
-        //Get last id
-        int LastId=1;
-        try { LastId=LastMail().getId()+1; } catch (Exception e){}
-
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
         mail_tbl mail=new mail_tbl(
-                LastId,
+                0,
                 title,
                 content,
                 user,

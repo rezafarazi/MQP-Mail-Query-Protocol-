@@ -8,6 +8,7 @@ public class mail_tbl
 {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String title;
@@ -30,12 +31,14 @@ public class mail_tbl
 
     private String From_Ip;
 
+    int send_mail_id;
+
 
     public mail_tbl() {
     }
 
-    public mail_tbl(int id,String title, String content, users_tbl user_id, String datetime, int delete_flag, String from_user,String to_user, int seen, String From_Ip) {
-        this.id=id;
+    public mail_tbl(int send_mail_id,String title, String content, users_tbl user_id, String datetime, int delete_flag, String from_user,String to_user, int seen, String From_Ip) {
+        this.send_mail_id=send_mail_id;
         this.title = title;
         this.content = content;
         this.users_id = user_id;
@@ -126,4 +129,13 @@ public class mail_tbl
     public void setFrom_Ip(String from_Ip) {
         From_Ip = from_Ip;
     }
+
+    public int getSend_mail_id() {
+        return send_mail_id;
+    }
+
+    public void setSend_mail_id(int send_mail_id) {
+        this.send_mail_id = send_mail_id;
+    }
+
 }

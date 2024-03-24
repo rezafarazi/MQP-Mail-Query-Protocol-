@@ -442,7 +442,7 @@ public class MQPSocket
     
     
     //Send new mail function start
-    public static void SendMQPMail(String address,String To,String From,String Title,String Content)
+    public static int SendMQPMail(String address,String To,String From,String Title,String Content)
     {
 
         try
@@ -477,21 +477,26 @@ public class MQPSocket
             DOS.write(SendValue.toString().getBytes());
 
             //Get mail condition
-            byte []readvalue=new byte[1024];
+            byte []readvalue=new byte[120];
             DIS.read(readvalue);
             String result=new String(readvalue);
-            System.out.println("Sended message condition is : "+result);
+
+            JSONObject server_result=new JSONObject(result.trim());
 
             //Close socket
             DIS.close();
             DOS.close();
             SendSocket.close();
 
+            return Integer.parseInt(server_result.get("MailId").toString());
+
         }
         catch (Exception e)
         {
             System.out.println("Error : Send socket -> "+e.getMessage());
         }
+
+        return 0;
 
     }
     //Send new mail function end
