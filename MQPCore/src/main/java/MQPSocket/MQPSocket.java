@@ -109,6 +109,8 @@ public class MQPSocket
                             int Mesage_Len=Integer.parseInt(count_len.trim());
                             System.out.println("Ready to receive "+Mesage_Len+" Len");
 
+                            //Get send ready
+                            DOS.write("Ready".getBytes());
 
                             //Get read condition
                             byte []res=new byte[Mesage_Len];
@@ -374,11 +376,12 @@ public class MQPSocket
         try
         {
             System.out.println("New Mail Condition");
-            users_tbl user = new Users_Service().GetUserByUsername(Data.get("TO").toString());
+            users_tbl user = new Users_Service().GetUserByUsername(Data.get("TO").toString().split("@")[0]);
             mail_tbl mail = new Mail_Service().InsertnewMail(Data.get("TITLE").toString(),
                     Data.get("CONTENT").toString(),
                     user ,
                     Data.get("FROM").toString(),
+                    Data.get("TO").toString(),
                     socket.getInetAddress().toString()
             );
 
@@ -429,5 +432,71 @@ public class MQPSocket
         }
     }
     //Get update condition function end
+    
+    
+    
+    
+    
+    /*******************************************************************************************************************************************/
+    
+    
+    
+    //Send new mail function start
+    public static void SendMQPMail(String address,String To,String From,String Title,String Content)
+    {
+
+        try
+        {
+            //New mail exmaple format
+            //{"Condition":"NEWMAIL","TO":"Rezafta","FROM":"Rezaftaturk","CONTENT":"Cont","TITLE":"ONVAN"}
+
+            //Get initlitze mqp socket
+            Socket SendSocket = new Socket(address, Config.Port);
+            System.out.println("Connected to "+address);
+
+            //Get initlitze stream on socket
+            DataInputStream DIS=new DataInputStream(SendSocket.getInputStream());
+            DataOutputStream DOS=new DataOutputStream(SendSocket.getOutputStream());
+
+            JSONObject SendValue=new JSONObject();
+            SendValue.put("Condition","NEWMAIL");
+            SendValue.put("TO",To);
+            SendValue.put("FROM",From);
+            SendValue.put("TITLE",Title);
+            SendValue.put("CONTENT",Content);
+
+            //Get send string length
+            DOS.write((SendValue.toString().trim().length()+"").getBytes());
+
+            //Get check
+            byte check[]=new byte[20];
+            DIS.read(check);
+            System.out.println("Condition is "+(new String(check)).trim());
+
+            //Send mail to server
+            DOS.write(SendValue.toString().getBytes());
+
+            //Get mail condition
+            byte []readvalue=new byte[1024];
+            DIS.read(readvalue);
+            String result=new String(readvalue);
+            System.out.println("Sended message condition is : "+result);
+
+            //Close socket
+            DIS.close();
+            DOS.close();
+            SendSocket.close();
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error : Send socket -> "+e.getMessage());
+        }
+
+    }
+    //Send new mail function end
+    
+    
+    
 
 }

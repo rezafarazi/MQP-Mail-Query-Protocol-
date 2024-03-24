@@ -10,8 +10,12 @@ public interface mail_repo
 {
 
     //Insert new mail start
-    public mail_tbl InsertnewMail(String title, String content, users_tbl user_id, String fromuser,String IP);
+    public mail_tbl InsertnewMail(String title, String content, users_tbl user, String fromuser,String touser,String IP);
     //Insert new mail end
+
+    //Insert new mail by id start
+    public mail_tbl InsertnewMailById(int id,String title, String content, users_tbl user, String fromuser,String touser,String IP);
+    //Insert new mail by id end
 
     //Update new mail start
     public mail_tbl UpdatenewMail(int mail_id,String title, String content, users_tbl user_id, String fromuser,String IP);
@@ -40,5 +44,9 @@ public interface mail_repo
     //Get delete mail start
     public void DeleteMail(int id, String IP) throws Exception;
     //Get delete mail end
+
+    //Get last mail start
+    public mail_tbl LastMail() throws Exception;
+    //Get last mail end
 
 }

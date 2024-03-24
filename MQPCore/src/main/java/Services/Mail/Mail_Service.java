@@ -43,19 +43,24 @@ public class Mail_Service implements mail_repo
 
     //Insert new mail function start
     @Override
-    public mail_tbl InsertnewMail(String title, String content, users_tbl user, String fromuser,String IP)
+    public mail_tbl InsertnewMail(String title, String content, users_tbl user, String fromuser,String touser,String IP)
     {
+        //Get last id
+        int LastId=1;
+        try { LastId=LastMail().getId()+1; } catch (Exception e){}
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
         mail_tbl mail=new mail_tbl(
+                LastId,
                 title,
                 content,
                 user,
                 dtf.format(now),
                 0,
                 fromuser,
+                touser,
                 0,
                 IP
         );
@@ -69,6 +74,38 @@ public class Mail_Service implements mail_repo
         return mail;
     }
     //Insert new mail function end
+
+
+    //Insert new mail by id start
+
+    @Override
+    public mail_tbl InsertnewMailById(int id,String title, String content, users_tbl user, String fromuser, String touser, String IP)
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        mail_tbl mail=new mail_tbl(
+                id,
+                title,
+                content,
+                user,
+                dtf.format(now),
+                0,
+                fromuser,
+                touser,
+                0,
+                IP
+        );
+
+        session.save(mail);
+        TA.commit();
+        session.close();
+        SF.close();
+        SSR.close();
+
+        return mail;
+    }
+    //Insert new mail by id end
 
 
     //Update new mail function start
@@ -170,5 +207,15 @@ public class Mail_Service implements mail_repo
     }
     //Get delete mail end
 
+
+    //Get Last meil start
+    @Override
+    public mail_tbl LastMail() throws Exception
+    {
+        Query hql=session.createQuery("from mail_tbl");
+        mail_tbl mail=(mail_tbl) hql.list().get(hql.list().size()-1);
+        return mail;
+    }
+    //Get Last meil end
 
 }

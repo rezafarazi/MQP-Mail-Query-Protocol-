@@ -281,6 +281,12 @@ public class HttpServer
                 else
                     response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
                 break;
+            case "/SendMail":
+                if(GetApiAuthCheck(Header))
+                    response=new HttpHandlerController().SendMail(parametrs_json,Header);
+                else
+                    response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
+                break;
             default:
                 response=new ResponseModel("404","text/json","{\"message\":\"not found\"}");
                 break;

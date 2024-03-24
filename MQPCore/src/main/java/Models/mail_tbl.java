@@ -8,7 +8,6 @@ public class mail_tbl
 {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String title;
@@ -35,13 +34,15 @@ public class mail_tbl
     public mail_tbl() {
     }
 
-    public mail_tbl(String title, String content, users_tbl user_id, String datetime, int delete_flag, String from_user, int seen, String From_Ip) {
+    public mail_tbl(int id,String title, String content, users_tbl user_id, String datetime, int delete_flag, String from_user,String to_user, int seen, String From_Ip) {
+        this.id=id;
         this.title = title;
         this.content = content;
         this.users_id = user_id;
         this.datetime = datetime;
         this.delete_flag = delete_flag;
         this.from_user = from_user;
+        this.to_user = to_user;
         this.seen = seen;
         this.From_Ip = From_Ip;
     }

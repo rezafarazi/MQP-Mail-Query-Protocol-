@@ -1,9 +1,11 @@
 package Http;
 
+import Conf.Config;
 import Functions.Hash;
 import Functions.TextEncript;
 import Http.Models.ResponseModel;
 import Http.Models.UserAuthModel;
+import MQPSocket.MQPSocket;
 import Models.mail_tbl;
 import Models.users_tbl;
 import Services.Mail.Mail_Service;
@@ -150,6 +152,65 @@ public class HttpHandlerController
         }
     }
     //Get all user mails end
+
+
+    //Send mail start
+    public ResponseModel SendMail(JSONObject parametrs,JSONObject Header)
+    {
+
+        //Get userdata
+        UserAuthModel usr = new UserAuthModel(Header.get("Auth").toString());
+
+        //Get address check
+        if(parametrs.get("address").toString().contains("@"+Config.DomainAddress))
+        {
+            try
+            {
+                new Mail_Service().InsertnewMail(
+                        parametrs.get("title").toString(),
+                        parametrs.get("content").toString(),
+                        new Users_Service().GetUserByUsername(usr.getUsername()),
+                        usr.getUsername()+"@"+Config.DomainAddress,
+                        parametrs.get("address").toString(),
+                        Config.DomainAddress
+                );
+            }
+            catch (Exception e)
+            {
+                return new ResponseModel("500","text/html","{\"message\":\"server internal 1 error\"}");
+            }
+        }
+        else
+        {
+            try
+            {
+                //Get send mail
+                MQPSocket.SendMQPMail(
+                        parametrs.get("address").toString().split("@")[1],
+                        parametrs.get("address").toString(),
+                        usr.getUsername()+"@"+Config.DomainAddress,
+                        parametrs.get("title").toString(),
+                        parametrs.get("content").toString()
+                );
+
+//                new Mail_Service().InsertnewMail(
+//                        parametrs.get("title").toString(),
+//                        parametrs.get("content").toString(),
+//                        new Users_Service().GetUserByUsername(usr.getUsername()),
+//                        usr.getUsername() + "@" + Config.DomainAddress,
+//                        parametrs.get("address").toString(),
+//                        Config.DomainAddress
+//                );
+            }
+            catch (Exception e)
+            {
+                return new ResponseModel("500","text/html","{\"message\":\"server internal 2 error\"}");
+            }
+        }
+
+        return new ResponseModel("200","text/html","{\"status\":\"mail sended\"}");
+    }
+    //Send mail end
 
 
 }
