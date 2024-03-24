@@ -25,6 +25,7 @@ public class MQPSocket
 
     //Static variables
     public static ServerSocket S_Socket;
+    public static ServerSocket Check_Socket;
     public static ServerSocket File_S_Socket;
     public static ServerSocket Seen_Delete_S_Socket;
 
@@ -40,6 +41,14 @@ public class MQPSocket
                 MailSocket();
             }
         }).start();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CheckSocket();
+            }
+        });
 
 
         new Thread(new Runnable() {
@@ -154,10 +163,93 @@ public class MQPSocket
         catch (Exception e)
         {
             //Print error condition
-            System.out.println(e.getMessage());
+            System.out.println("Error : Mail port : "+e.getMessage());
         }
     }
     //Get Mail Socket end
+
+    //Get Check Socket start
+    void CheckSocket()
+    {
+        try
+        {
+            //Init new server socket
+            Check_Socket = new ServerSocket(Config.CheckPort);
+
+            //Print server socket is started
+            System.out.println("Socket is ready on "+Config.Port);
+
+            while (true)
+            {
+                //Get accept request socket
+                Socket client_socket = Check_Socket.accept();
+                System.out.println("New Check request");
+
+                //Create a socket send and resvice instance
+                DataInputStream DIS = new DataInputStream(client_socket.getInputStream());
+                DataOutputStream DOS = new DataOutputStream(client_socket.getOutputStream());
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try
+                        {
+                            //Get resicve a username
+                            byte []usernamebyte=new byte[1024];
+                            DIS.read(usernamebyte);
+                            String res_value=new String(usernamebyte);
+                            res_value=res_value.trim();
+
+                            //Get convert resive value to json object
+                            JSONObject inp=new JSONObject(res_value);
+
+                            //result
+                            JSONObject result=new JSONObject();
+
+                            //Get check user
+                            if(new Users_Service().CheckUserExist(inp.get("USERNAME").toString()))
+                            {
+                                users_tbl user=new Users_Service().GetUserByUsername(inp.get("USERNAME").toString());
+
+                                result.put("USER",true);
+                                result.put("USERNAME",user.getUsername());
+                                result.put("NAME",user.getName());
+                                result.put("FAMILY",user.getFamily());
+                                result.put("EMAIL",user.getEmail());
+                                result.put("PHONE",user.getPhone());
+                            }
+                            else
+                            {
+                                result.put("USER",false);
+                            }
+
+                            //send result
+                            DOS.write(result.toString().getBytes());
+
+                            //Close sockets
+                            DIS.close();
+                            DOS.close();
+                            client_socket.close();
+
+                        }
+                        catch (Exception e)
+                        {
+                            //Print error condition
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }).start();
+
+            }
+
+        }
+        catch (Exception e)
+        {
+            //Print error condition
+            System.out.println("Error : Check port "+e.getMessage());
+        }
+    }
+    //Get Check Socket end
 
     //Get File Socket start
     void FileSocket()
@@ -229,7 +321,7 @@ public class MQPSocket
         catch (Exception e)
         {
             //Print error condition
-            System.out.println(e.getMessage());
+            System.out.println("Error : File port "+e.getMessage());
         }
     }
     //Get File Socket end
@@ -305,7 +397,7 @@ public class MQPSocket
         catch (Exception e)
         {
             //Print error condition
-            System.out.println(e.getMessage());
+            System.out.println("Error : Seen port "+e.getMessage());
         }
     }
     //Get File Socket end
@@ -500,6 +592,64 @@ public class MQPSocket
 
     }
     //Send new mail function end
+
+    //Get Check Socket start
+    public static ArrayList<Object> CheckUser(String address)
+    {
+        ArrayList result=new ArrayList();
+
+        try
+        {
+            //Get initlitze mqp socket
+            Socket SendSocket = new Socket(address.split("@")[1], Config.Port);
+            System.out.println("Connected to "+address.split("@")[1]);
+
+            //Get initlitze stream on socket
+            DataInputStream DIS=new DataInputStream(SendSocket.getInputStream());
+            DataOutputStream DOS=new DataOutputStream(SendSocket.getOutputStream());
+
+            //Create send value
+            JSONObject send_value=new JSONObject();
+            send_value.put("USERNAME",address.split("@")[0]);
+
+            //Send
+            DOS.write(send_value.toString().getBytes());
+
+            //GetCheck
+            byte GetCheckBytes[]=new byte[1024];
+            String GetCheck=new String(GetCheckBytes);
+            GetCheck=GetCheck.trim();
+            JSONObject CheckValue=new JSONObject(GetCheck);
+
+            //Get check user exist
+            if(CheckValue.getBoolean("USER"))
+            {
+                result.add(true);
+                result.add(CheckValue.toString());
+            }
+            else
+            {
+                result.add(false);
+            }
+
+            //Close socket
+            DIS.close();
+            DOS.close();
+            SendSocket.close();
+
+            return result;
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error : Send socket -> "+e.getMessage());
+        }
+
+        result.add(false);
+        return result;
+
+    }
+    //Get Check Socket ene
     
     
     

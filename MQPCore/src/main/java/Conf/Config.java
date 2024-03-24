@@ -13,6 +13,7 @@ public class Config
 
     //Run port number
     public static int Port;
+    public static int CheckPort;
     public static int FilePort;
     public static int HttpPort;
     public static int SeenPort;
@@ -30,8 +31,11 @@ public class Config
             //Domain address conf
             DomainAddress=properties.getProperty("domain_address").toString();
 
-            //Prot conf
+            //Port conf
             Port=Integer.parseInt(properties.getProperty("port").toString());
+
+            //Check port conf
+            CheckPort=Integer.parseInt(properties.getProperty("check_port").toString());
 
             //File prot conf
             FilePort=Integer.parseInt(properties.getProperty("file_port").toString());

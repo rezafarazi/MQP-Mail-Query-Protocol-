@@ -263,6 +263,9 @@ public class HttpServer
             case "/Signup":
                 response=new HttpHandlerController().Signup(parametrs_json,Header);
                 break;
+            case "/CheckUser":
+                response=new HttpHandlerController().CheckUserNetwork(parametrs_json,Header);
+                break;
             case "/GetUser":
                 if(GetApiAuthCheck(Header))
                     response=new HttpHandlerController().GetUser(parametrs_json,Header);

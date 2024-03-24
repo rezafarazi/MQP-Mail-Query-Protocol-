@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -97,6 +98,57 @@ public class HttpHandlerController
         }
     }
     //Get signup new user end
+
+
+    //Get check user exist in network start
+    public ResponseModel CheckUserNetwork(JSONObject parametrs,JSONObject Header)
+    {
+        //Get check server
+        if(parametrs.get("Address").toString().contains("@"+Config.DomainAddress))
+        {
+            if(new Users_Service().CheckUserExist(parametrs.get("Address").toString().split("@")[0]))
+            {
+                try
+                {
+                    //Get user data
+                    users_tbl user = new Users_Service().GetUserByUsername(parametrs.get("Address").toString().split("@")[0]);
+
+                    //Get result variavle
+                    JSONObject result=new JSONObject();
+
+                    result.put("USERNAME",user.getUsername());
+                    result.put("NAME",user.getName());
+                    result.put("FAMILY",user.getFamily());
+                    result.put("EMAIL",user.getEmail());
+                    result.put("PHONE",user.getPhone());
+
+                    return new ResponseModel("200","text/html",result.toString());
+                }
+                catch (Exception e)
+                {
+                    return new ResponseModel("500","text/html","{\"message\":\"Internal server error\"}");
+                }
+            }
+            else
+            {
+                return new ResponseModel("403","text/html","{\"message\":\"User not exist\"}");
+            }
+        }
+        else
+        {
+            ArrayList UserCheck=MQPSocket.CheckUser(parametrs.get("Address").toString().split("@")[0]);
+
+            if(Boolean.parseBoolean(UserCheck.get(0).toString()))
+            {
+                return new ResponseModel("200","text/html",UserCheck.get(0).toString());
+            }
+            else
+            {
+                return new ResponseModel("403","text/html","{\"message\":\"User not exist\"}");
+            }
+        }
+    }
+    //Get check user exist in network end
 
 
     //Get user data from token start
