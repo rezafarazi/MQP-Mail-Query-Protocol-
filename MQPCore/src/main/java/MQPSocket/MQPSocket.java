@@ -374,8 +374,29 @@ public class MQPSocket
 
                             if(Data.get("Condition").toString().equals("SEEN"))
                             {
-                                new Mail_Service().SeenMail(MailId, client_socket.getInetAddress().toString().replace("/",""));
-                                //System.out.println("Seen ok");
+                                //Get mail
+                                mail_tbl Mail=new Mail_Service().GetMailById(MailId);
+
+                                System.out.println("IP is "+client_socket.getInetAddress().toString().replace("/",""));
+
+                                //Check from server ip address
+                                if(Mail.getFrom_Ip().equals(client_socket.getInetAddress().toString().replace("/","")))
+                                {
+                                    if (new Mail_Service().SeenMail(MailId))
+                                    {
+                                        result.put("Status", "OK");
+                                        //System.out.println("Delete ok");
+                                    }
+                                    else
+                                    {
+                                        result.put("Status", "Bad Id");
+                                        //System.out.println("Bad Id");
+                                    }
+                                }
+                                else
+                                {
+                                    result.put("Status", "Bad Id");
+                                }
                             }
                             else if(Data.get("Condition").toString().equals("DELETE"))
                             {
@@ -739,6 +760,61 @@ public class MQPSocket
 
     }
     //Get delete mail end
+
+    //Get seen mail start
+    public static boolean SeenMail(String address,String mail_id)
+    {
+        try
+        {
+            //Get initlitze mqp socket
+            Socket SendSocket = new Socket(address.split("@")[1], Config.SeenPort);
+            System.out.println("Connected to "+address.split("@")[1]);
+
+            //result
+            boolean result=false;
+
+            //Get initlitze stream on socket
+            DataInputStream DIS=new DataInputStream(SendSocket.getInputStream());
+            DataOutputStream DOS=new DataOutputStream(SendSocket.getOutputStream());
+
+            //Create send value
+            JSONObject send_value=new JSONObject();
+            send_value.put("Condition","SEEN");
+            send_value.put("MailId",mail_id);
+
+            //Send
+            DOS.write(send_value.toString().getBytes());
+
+            //GetCheck
+            byte GetCheckBytes[]=new byte[1024];
+            DIS.read(GetCheckBytes);
+            String GetCheck=new String(GetCheckBytes);
+            GetCheck=GetCheck.trim();
+            System.out.println(GetCheck);
+            JSONObject CheckValue=new JSONObject(GetCheck);
+
+            if(CheckValue.get("Status").toString().equals("OK"))
+            {
+                result=true;
+            }
+
+            //Close socket
+            DIS.close();
+            DOS.close();
+            SendSocket.close();
+
+            return result;
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error : Send socket -> "+e.getMessage());
+        }
+
+        return false;
+
+    }
+    //Get seen mail end
     
 
 }

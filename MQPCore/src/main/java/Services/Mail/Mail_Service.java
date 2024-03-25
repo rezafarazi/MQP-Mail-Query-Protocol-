@@ -169,23 +169,65 @@ public class Mail_Service implements mail_repo
     //Get all mails in a user and other user end
 
 
-    //Get seen mail start
+    //Get delete mail start
     @Override
-    public void SeenMail(int id , String IP) throws Exception {
+    public boolean SeenMail(int id,String IP) throws Exception
+    {
+        try
+        {
+            mail_tbl mail= GetMailById(id);
 
-        mail_tbl mail=new Mail_Service().GetMailById(id);
+            if(mail.getFrom_Ip().equals(IP) && !IP.equals(Config.DomainAddress))
+            {
+                mail.setSeen(1);
+            }
 
-        if(mail.getFrom_Ip().equals(IP)) {
-            mail.setSeen(1);
+            if(IP.equals(Config.DomainAddress))
+            {
+                mail.setSeen(1);
+            }
+
+            session.update(mail);
+            TA.commit();
+            session.close();
+            SF.close();
+            SSR.close();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+
         }
 
-        session.update(mail);
-        TA.commit();
-        session.close();
-        SF.close();
-        SSR.close();
+        return false;
     }
-    //Get seen mail end
+
+    @Override
+    public boolean SeenMail(int id) throws Exception
+    {
+        try
+        {
+            mail_tbl mail= GetMailById(id);
+
+            mail.setSeen(1);
+
+            session.update(mail);
+            TA.commit();
+            session.close();
+            SF.close();
+            SSR.close();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+
+        }
+
+        return false;
+    }
+    //Get delete mail end
 
 
     //Get delete mail start

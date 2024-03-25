@@ -38,7 +38,11 @@ public interface mail_repo
     //Get all mails in a user and other user end
 
     //Get seen mail start
-    public void SeenMail(int id, String IP) throws Exception;
+    public boolean SeenMail(int id, String IP) throws Exception;
+    //Get seen mail end
+
+    //Get seen mail start
+    public boolean SeenMail(int id) throws Exception;
     //Get seen mail end
 
     //Get delete mail start

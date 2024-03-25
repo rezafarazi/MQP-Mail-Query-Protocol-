@@ -314,4 +314,52 @@ public class HttpHandlerController
     //Delete mail end
 
 
+    //Seen mail start
+    public ResponseModel SeenMail(JSONObject parametrs,JSONObject Header)
+    {
+
+        //Get userdata
+        UserAuthModel usr = new UserAuthModel(Header.get("Auth").toString());
+
+        //Get address check
+        if(parametrs.get("address").toString().contains("@"+Config.DomainAddress))
+        {
+            try
+            {
+                //Get check user mail by username
+                mail_tbl mail=new Mail_Service().GetMailById(Integer.parseInt(parametrs.get("MAILID").toString()));
+                if(mail.getTo_user().equals(usr.getUsername()+"@"+Config.DomainAddress) || mail.getFrom_user().equals(usr.getUsername()+"@"+Config.DomainAddress))
+                {
+                    //Get remove mail
+                    new Mail_Service().SeenMail(Integer.parseInt(parametrs.get("MAILID").toString()));
+                }
+            }
+            catch (Exception e)
+            {
+                return new ResponseModel("500","text/html","{\"message\":\"server internal error\"}");
+            }
+        }
+        else
+        {
+            try
+            {
+                //Get mail
+                mail_tbl mail = new Mail_Service().GetMailById(Integer.parseInt(parametrs.get("MAILID").toString()));
+
+                if(MQPSocket.SeenMail(parametrs.get("address").toString(),mail.getSend_mail_id()+""))
+                {
+                    new Mail_Service().SeenMail(Integer.parseInt(mail.getId()+"") );
+                }
+            }
+            catch (Exception e)
+            {
+                return new ResponseModel("500","text/html","{\"message\":\"server internal error\"}");
+            }
+        }
+
+        return new ResponseModel("200","text/html","{\"status\":\"mail is seen done\"}");
+    }
+    //Seen mail end
+
+
 }
