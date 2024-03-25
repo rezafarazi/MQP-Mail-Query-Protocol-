@@ -42,7 +42,11 @@ public interface mail_repo
     //Get seen mail end
 
     //Get delete mail start
-    public void DeleteMail(int id, String IP) throws Exception;
+    public boolean DeleteMail(int id, String IP) throws Exception;
+    //Get delete mail end
+
+    //Get delete mail start
+    public boolean DeleteMail(int id) throws Exception;
     //Get delete mail end
 
     //Get last mail start

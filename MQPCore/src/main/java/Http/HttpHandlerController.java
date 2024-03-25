@@ -266,7 +266,7 @@ public class HttpHandlerController
     //Send mail end
 
 
-    //Send mail start
+    //Delete mail start
     public ResponseModel DeleteMail(JSONObject parametrs,JSONObject Header)
     {
 
@@ -278,7 +278,13 @@ public class HttpHandlerController
         {
             try
             {
-                new Mail_Service().DeleteMail(Integer.parseInt(parametrs.get("MAILID").toString()), "0.0.0.0");
+                //Get check user mail by username
+                mail_tbl mail=new Mail_Service().GetMailById(Integer.parseInt(parametrs.get("MAILID").toString()));
+                if(mail.getTo_user().equals(usr.getUsername()+"@"+Config.DomainAddress) || mail.getFrom_user().equals(usr.getUsername()+"@"+Config.DomainAddress))
+                {
+                    //Get remove mail
+                    new Mail_Service().DeleteMail(Integer.parseInt(parametrs.get("MAILID").toString()));
+                }
             }
             catch (Exception e)
             {
@@ -287,12 +293,25 @@ public class HttpHandlerController
         }
         else
         {
+            try
+            {
+                //Get mail
+                mail_tbl mail = new Mail_Service().GetMailById(Integer.parseInt(parametrs.get("MAILID").toString()));
 
+                if(MQPSocket.DeleteMail(parametrs.get("address").toString(),mail.getSend_mail_id()+""))
+                {
+                    new Mail_Service().DeleteMail(Integer.parseInt(mail.getId()+"") );
+                }
+            }
+            catch (Exception e)
+            {
+                return new ResponseModel("500","text/html","{\"message\":\"server internal error\"}");
+            }
         }
 
-        return new ResponseModel("200","text/html","{\"status\":\"mail sended\"}");
+        return new ResponseModel("200","text/html","{\"status\":\"mail removed\"}");
     }
-    //Send mail end
+    //Delete mail end
 
 
 }

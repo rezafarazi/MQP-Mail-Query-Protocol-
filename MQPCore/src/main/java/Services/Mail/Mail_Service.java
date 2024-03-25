@@ -58,6 +58,7 @@ public class Mail_Service implements mail_repo
                 fromuser,
                 touser,
                 0,
+                1,
                 IP
         );
 
@@ -90,6 +91,7 @@ public class Mail_Service implements mail_repo
                 fromuser,
                 touser,
                 0,
+                1,
                 IP
         );
 
@@ -188,20 +190,61 @@ public class Mail_Service implements mail_repo
 
     //Get delete mail start
     @Override
-    public void DeleteMail(int id,String IP) throws Exception {
-        mail_tbl mail=new Mail_Service().GetMailById(id);
+    public boolean DeleteMail(int id,String IP) throws Exception
+    {
+        try
+        {
+            mail_tbl mail= GetMailById(id);
 
-//        if(mail.getFrom_Ip().equals(IP)) {
-//            mail.setDelete_flag(1);
-//        }
+            if(mail.getFrom_Ip().equals(IP) && !IP.equals(Config.DomainAddress))
+            {
+                mail.setDelete_flag(1);
+            }
 
-        mail.setDelete_flag(1);
+            if(IP.equals(Config.DomainAddress))
+            {
+                mail.setDelete_flag(1);
+            }
 
-        session.update(mail);
-        TA.commit();
-        session.close();
-        SF.close();
-        SSR.close();
+            session.update(mail);
+            TA.commit();
+            session.close();
+            SF.close();
+            SSR.close();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean DeleteMail(int id) throws Exception
+    {
+        try
+        {
+            mail_tbl mail= GetMailById(id);
+
+            mail.setDelete_flag(1);
+
+            session.update(mail);
+            TA.commit();
+            session.close();
+            SF.close();
+            SSR.close();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+
+        }
+
+        return false;
     }
     //Get delete mail end
 

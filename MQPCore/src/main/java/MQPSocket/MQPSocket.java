@@ -348,11 +348,9 @@ public class MQPSocket
                 Socket client_socket = Seen_Delete_S_Socket.accept();
                 System.out.println("New Seen request");
 
-
                 //Create a socket send and resvice instance
                 DataInputStream DIS = new DataInputStream(client_socket.getInputStream());
                 DataOutputStream DOS = new DataOutputStream(client_socket.getOutputStream());
-
 
                 //Socket thread work with multi sockets
                 //File Socket thread start
@@ -367,19 +365,51 @@ public class MQPSocket
                             byte []res=new byte[4096];
                             DIS.read(res);
                             String resvice=new String(res);
-                            System.out.println(resvice);
-                            JSONObject Data = new JSONObject(resvice);
+                            //System.out.println("Resived value "+resvice.trim());
+                            JSONObject Data = new JSONObject(resvice.trim());
                             int MailId=Data.getInt("MailId");
 
-                            if(Data.get("Condition").toString().equals("SEEN")) {
-                                new Mail_Service().SeenMail(MailId, client_socket.getInetAddress().toString());
-                                System.out.println("Seen ok");
+                            //Result
+                            JSONObject result=new JSONObject();
+
+                            if(Data.get("Condition").toString().equals("SEEN"))
+                            {
+                                new Mail_Service().SeenMail(MailId, client_socket.getInetAddress().toString().replace("/",""));
+                                //System.out.println("Seen ok");
                             }
-                            else if(Data.get("Condition").toString().equals("DELETE")) {
-                                new Mail_Service().DeleteMail(MailId, client_socket.getInetAddress().toString());
-                                System.out.println("Delete ok");
+                            else if(Data.get("Condition").toString().equals("DELETE"))
+                            {
+                                //Get mail
+                                mail_tbl Mail=new Mail_Service().GetMailById(MailId);
+
+                                System.out.println("IP is "+client_socket.getInetAddress().toString().replace("/",""));
+
+                                //Check from server ip address
+                                if(Mail.getFrom_Ip().equals(client_socket.getInetAddress().toString().replace("/","")))
+                                {
+                                    if (new Mail_Service().DeleteMail(MailId))
+                                    {
+                                        result.put("Status", "OK");
+                                        //System.out.println("Delete ok");
+                                    }
+                                    else
+                                    {
+                                        result.put("Status", "Bad Id");
+                                        //System.out.println("Bad Id");
+                                    }
+                                }
+                                else
+                                {
+                                    result.put("Status", "Bad Id");
+                                }
                             }
 
+                            //Get send result
+                            DOS.write(result.toString().getBytes());
+
+                            //Close socket
+                            DIS.close();
+                            DOS.close();
                             client_socket.close();
 
                         }
@@ -655,7 +685,60 @@ public class MQPSocket
     }
     //Get Check Socket ene
     
-    
+    //Get delete mail start
+    public static boolean DeleteMail(String address,String mail_id)
+    {
+        try
+        {
+            //Get initlitze mqp socket
+            Socket SendSocket = new Socket(address.split("@")[1], Config.SeenPort);
+            System.out.println("Connected to "+address.split("@")[1]);
+
+            //result
+            boolean result=false;
+
+            //Get initlitze stream on socket
+            DataInputStream DIS=new DataInputStream(SendSocket.getInputStream());
+            DataOutputStream DOS=new DataOutputStream(SendSocket.getOutputStream());
+
+            //Create send value
+            JSONObject send_value=new JSONObject();
+            send_value.put("Condition","DELETE");
+            send_value.put("MailId",mail_id);
+
+            //Send
+            DOS.write(send_value.toString().getBytes());
+
+            //GetCheck
+            byte GetCheckBytes[]=new byte[1024];
+            DIS.read(GetCheckBytes);
+            String GetCheck=new String(GetCheckBytes);
+            GetCheck=GetCheck.trim();
+            System.out.println(GetCheck);
+            JSONObject CheckValue=new JSONObject(GetCheck);
+
+            if(CheckValue.get("Status").toString().equals("OK"))
+            {
+                result=true;
+            }
+
+            //Close socket
+            DIS.close();
+            DOS.close();
+            SendSocket.close();
+
+            return result;
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error : Send socket -> "+e.getMessage());
+        }
+
+        return false;
+
+    }
+    //Get delete mail end
     
 
 }
