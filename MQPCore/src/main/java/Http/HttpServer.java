@@ -295,6 +295,12 @@ public class HttpServer
                 else
                     response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
                 break;
+            case "/UpdateMail":
+                if(GetApiAuthCheck(Header))
+                    response=new HttpHandlerController().UpdateMail(parametrs_json,Header);
+                else
+                    response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
+                break;
             case "/DeleteMail":
                 if(GetApiAuthCheck(Header))
                     response=new HttpHandlerController().DeleteMail(parametrs_json,Header);

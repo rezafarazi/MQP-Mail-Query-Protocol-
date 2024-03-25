@@ -266,6 +266,68 @@ public class HttpHandlerController
     //Send mail end
 
 
+    //Update mail start
+    public ResponseModel UpdateMail(JSONObject parametrs,JSONObject Header)
+    {
+
+        //Get userdata
+        UserAuthModel usr = new UserAuthModel(Header.get("Auth").toString());
+
+        //Get address check
+        if(parametrs.get("address").toString().contains("@"+Config.DomainAddress))
+        {
+            try
+            {
+                new Mail_Service().UpdatenewMail(
+                        Integer.parseInt(parametrs.get("mail_id").toString()),
+                        parametrs.get("title").toString(),
+                        parametrs.get("content").toString(),
+                        new Users_Service().GetUserByUsername(usr.getUsername()),
+                        usr.getUsername()+"@"+Config.DomainAddress,
+                        parametrs.get("address").toString(),
+                        Config.DomainAddress
+                );
+            }
+            catch (Exception e)
+            {
+                return new ResponseModel("500","text/html","{\"message\":\"server internal error\"}");
+            }
+        }
+        else
+        {
+            try
+            {
+                //Get send mail
+                String MailDitales[]=MQPSocket.UpdateMQPMail(
+                        Integer.parseInt(parametrs.get("mail_id").toString()),
+                        parametrs.get("address").toString().split("@")[1],
+                        parametrs.get("address").toString(),
+                        usr.getUsername()+"@"+Config.DomainAddress,
+                        parametrs.get("title").toString(),
+                        parametrs.get("content").toString()
+                ).split("-");
+
+                new Mail_Service().UpdatenewMail(
+                        Integer.parseInt(MailDitales[0]),
+                        parametrs.get("title").toString(),
+                        parametrs.get("content").toString(),
+                        new Users_Service().GetUserByUsername(usr.getUsername()),
+                        usr.getUsername() + "@" + Config.DomainAddress,
+                        parametrs.get("address").toString(),
+                        MailDitales[1]
+                );
+            }
+            catch (Exception e)
+            {
+                return new ResponseModel("500","text/html","{\"message\":\"server internal error\"}");
+            }
+        }
+
+        return new ResponseModel("200","text/html","{\"status\":\"mail sended\"}");
+    }
+    //Update mail end
+
+
     //Delete mail start
     public ResponseModel DeleteMail(JSONObject parametrs,JSONObject Header)
     {

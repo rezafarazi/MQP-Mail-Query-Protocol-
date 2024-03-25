@@ -551,24 +551,44 @@ public class MQPSocket
         try
         {
             System.out.println("Update Mail Condition");
-            users_tbl user = new Users_Service().GetUserByUsername(Data.get("TO").toString());
-            mail_tbl mail = new Mail_Service().UpdatenewMail(
-                    Data.getInt("MailId"),
-                    Data.get("TITLE").toString(),
-                    Data.get("CONTENT").toString(),
-                    user ,
-                    Data.get("FROM").toString(),
-                    socket.getInetAddress().toString()
-            );
+            users_tbl user = new Users_Service().GetUserByUsername(Data.get("TO").toString().split("@")[0]);
 
-            //Send mail id start
-            JSONObject JO=new JSONObject();
-            JO.put("Status","Success");
-            JO.put("MailId",mail.getId());
-            DOS.write(JO.toString().getBytes());
-            //Send mail id end
+            mail_tbl tag_mail=new Mail_Service().GetMailById(Data.getInt("MailId"));
 
-            System.out.println("Submit");
+            System.out.println("Frist Ip is "+tag_mail.getFrom_Ip());
+            System.out.println("Frist Ip is "+socket.getInetAddress().toString().replace("/",""));
+            if(tag_mail.getFrom_Ip().equals(socket.getInetAddress().toString().replace("/","")))
+            {
+                mail_tbl mail = new Mail_Service().UpdatenewMail(
+                        Data.getInt("MailId"),
+                        Data.get("TITLE").toString(),
+                        Data.get("CONTENT").toString(),
+                        user,
+                        Data.get("FROM").toString(),
+                        Data.get("TO").toString(),
+                        socket.getInetAddress().toString()
+                );
+
+                //Send mail id start
+                JSONObject JO=new JSONObject();
+                JO.put("Status","Success");
+                JO.put("MailId",mail.getId());
+                DOS.write(JO.toString().getBytes());
+                //Send mail id end
+
+//                System.out.println("Submit");
+            }
+            else
+            {
+                //Send mail id start
+                JSONObject JO=new JSONObject();
+                JO.put("Status","Failure");
+                JO.put("MailId",Data.getInt("MailId"));
+                DOS.write(JO.toString().getBytes());
+                //Send mail id end
+
+//                System.out.println("Cannot update");
+            }
         }
         catch (Exception e)
         {
@@ -647,6 +667,70 @@ public class MQPSocket
 
     }
     //Send new mail function end
+
+    //Update new mail function start
+    public static String UpdateMQPMail(int mail_id,String address,String To,String From,String Title,String Content)
+    {
+
+        try
+        {
+            //New mail exmaple format
+            //{"Condition":"UPDATEMAIL","MailId":6,"TITLE":"","CONTENT":"","FROM":"Rezaftaturk","TO":"RezaFta"}
+
+            //Get initlitze mqp socket
+            Socket SendSocket = new Socket(address, Config.Port);
+//            InetSocketAddress socketAddress = (InetSocketAddress) SendSocket.getRemoteSocketAddress();
+//            String ServerIP=socketAddress.getAddress().getHostAddress();
+            String ServerIP=SendSocket.getInetAddress().toString().replace("/","");
+            System.out.println("Connected to "+address);
+
+            //Get initlitze stream on socket
+            DataInputStream DIS=new DataInputStream(SendSocket.getInputStream());
+            DataOutputStream DOS=new DataOutputStream(SendSocket.getOutputStream());
+
+            JSONObject SendValue=new JSONObject();
+            SendValue.put("Condition","UPDATEMAIL");
+            SendValue.put("MailId",mail_id);
+            SendValue.put("TITLE",Title);
+            SendValue.put("CONTENT",Content);
+            SendValue.put("FROM",From);
+            SendValue.put("TO",To);
+
+            //Get send string length
+            DOS.write((SendValue.toString().trim().length()+"").getBytes());
+
+            //Get check
+            byte check[]=new byte[20];
+            DIS.read(check);
+            System.out.println("Condition is "+(new String(check)).trim());
+
+            //Send mail to server
+            DOS.write(SendValue.toString().getBytes());
+
+            //Get mail condition
+            byte []readvalue=new byte[120];
+            DIS.read(readvalue);
+            String result=new String(readvalue);
+
+            JSONObject server_result=new JSONObject(result.trim());
+
+            //Close socket
+            DIS.close();
+            DOS.close();
+            SendSocket.close();
+
+            return Integer.parseInt(server_result.get("MailId").toString())+"-"+ServerIP;
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error : Send socket -> "+e.getMessage());
+        }
+
+        return "-";
+
+    }
+    //Update new mail function end
 
     //Get Check Socket start
     public static ArrayList<Object> CheckUser(String address)

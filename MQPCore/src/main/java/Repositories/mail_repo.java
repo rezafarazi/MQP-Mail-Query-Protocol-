@@ -18,7 +18,7 @@ public interface mail_repo
     //Insert new mail by id end
 
     //Update new mail start
-    public mail_tbl UpdatenewMail(int mail_id,String title, String content, users_tbl user_id, String fromuser,String IP);
+    public mail_tbl UpdatenewMail(int mail_id,String title, String content, users_tbl user_id, String fromuser,String touser,String IP);
     //Update new mail end
 
     //Get mail with mail id start
