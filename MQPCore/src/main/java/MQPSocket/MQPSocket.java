@@ -16,6 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -474,7 +475,7 @@ public class MQPSocket
                     user ,
                     Data.get("FROM").toString(),
                     Data.get("TO").toString(),
-                    socket.getInetAddress().toString()
+                    socket.getInetAddress().toString().replace("/","")
             );
 
             //Send mail id start
@@ -534,7 +535,7 @@ public class MQPSocket
     
     
     //Send new mail function start
-    public static int SendMQPMail(String address,String To,String From,String Title,String Content)
+    public static String SendMQPMail(String address,String To,String From,String Title,String Content)
     {
 
         try
@@ -544,6 +545,9 @@ public class MQPSocket
 
             //Get initlitze mqp socket
             Socket SendSocket = new Socket(address, Config.Port);
+//            InetSocketAddress socketAddress = (InetSocketAddress) SendSocket.getRemoteSocketAddress();
+//            String ServerIP=socketAddress.getAddress().getHostAddress();
+            String ServerIP=SendSocket.getInetAddress().toString().replace("/","");
             System.out.println("Connected to "+address);
 
             //Get initlitze stream on socket
@@ -580,7 +584,7 @@ public class MQPSocket
             DOS.close();
             SendSocket.close();
 
-            return Integer.parseInt(server_result.get("MailId").toString());
+            return Integer.parseInt(server_result.get("MailId").toString())+"-"+ServerIP;
 
         }
         catch (Exception e)
@@ -588,7 +592,7 @@ public class MQPSocket
             System.out.println("Error : Send socket -> "+e.getMessage());
         }
 
-        return 0;
+        return "-";
 
     }
     //Send new mail function end

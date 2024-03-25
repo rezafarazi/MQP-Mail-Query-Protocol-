@@ -8,6 +8,7 @@ import com.sun.net.httpserver.Headers;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -53,6 +54,10 @@ public class HttpServer
             {
                 //Get new request
                 Socket request=HttpSocket.accept();
+
+                //Get Log
+                //InetSocketAddress socketAddress = (InetSocketAddress) request.getRemoteSocketAddress();
+                //System.out.println("Ip is "+socketAddress.getAddress().getHostAddress());
 
                 //Get handle multi request
                 new Thread(new Runnable() {
@@ -287,6 +292,12 @@ public class HttpServer
             case "/SendMail":
                 if(GetApiAuthCheck(Header))
                     response=new HttpHandlerController().SendMail(parametrs_json,Header);
+                else
+                    response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
+                break;
+            case "/DeleteMail":
+                if(GetApiAuthCheck(Header))
+                    response=new HttpHandlerController().DeleteMail(parametrs_json,Header);
                 else
                     response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
                 break;

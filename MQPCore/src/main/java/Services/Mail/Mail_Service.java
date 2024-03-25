@@ -188,12 +188,14 @@ public class Mail_Service implements mail_repo
 
     //Get delete mail start
     @Override
-    public void DeleteMail(int id , String IP) throws Exception {
+    public void DeleteMail(int id,String IP) throws Exception {
         mail_tbl mail=new Mail_Service().GetMailById(id);
 
-        if(mail.getFrom_Ip().equals(IP)) {
-            mail.setDelete_flag(1);
-        }
+//        if(mail.getFrom_Ip().equals(IP)) {
+//            mail.setDelete_flag(1);
+//        }
+
+        mail.setDelete_flag(1);
 
         session.update(mail);
         TA.commit();
