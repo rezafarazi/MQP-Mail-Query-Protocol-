@@ -6,6 +6,7 @@ import java.util.Properties;
 public class Config
 {
 
+    //Global variables
     public static String DomainAddress;
     public static String Root_Dir;
     public static String JEncrptKey;
@@ -18,6 +19,9 @@ public class Config
     public static int HttpPort;
     public static int SeenPort;
     public static int FileSize;
+
+    //Check enciption
+    public static boolean Encription;
 
     public Config()
     {
@@ -57,6 +61,9 @@ public class Config
 
             //Json encript key
             JEncrptKey=properties.getProperty("http_user_encript_key").toString();
+
+            //Encription transferdata
+            Encription=Boolean.parseBoolean(properties.getProperty("encription").toString());
 
         }
         catch (Exception e)

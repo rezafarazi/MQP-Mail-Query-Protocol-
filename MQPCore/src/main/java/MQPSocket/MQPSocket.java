@@ -1,6 +1,7 @@
 package MQPSocket;
 
 import Conf.Config;
+import Functions.TextEncript;
 import Models.files_tbl;
 import Models.mail_files_tbl;
 import Models.mail_tbl;
@@ -29,7 +30,6 @@ public class MQPSocket
     public static ServerSocket Check_Socket;
     public static ServerSocket File_S_Socket;
     public static ServerSocket Seen_Delete_S_Socket;
-
 
     //Constractor start
     public MQPSocket()
@@ -117,7 +117,7 @@ public class MQPSocket
                             DIS.read(inp_len);
                             String count_len=new String(inp_len);
                             int Mesage_Len=Integer.parseInt(count_len.trim());
-                            System.out.println("Ready to receive "+Mesage_Len+" Len");
+//                            System.out.println("Ready to receive "+Mesage_Len+" Len");
 
                             //Get send ready
                             DOS.write("Ready".getBytes());
@@ -126,6 +126,12 @@ public class MQPSocket
                             byte []res=new byte[Mesage_Len];
                             DIS.read(res);
                             String resvice=new String(res);
+
+                            //Decript
+                            resvice=TextEncript.TextDecript(client_socket.getInetAddress().toString().split("/")[1],resvice);
+                            System.out.println("Resived "+resvice);
+
+
                             System.out.println(resvice);
                             JSONObject Data = new JSONObject(resvice);
                             String Condition=Data.get("Condition").toString();
@@ -361,12 +367,17 @@ public class MQPSocket
                     {
                         try
                         {
+                            String ServerIP=client_socket.getInetAddress().toString().split("/")[1];
+
                             //Get read condition
                             byte []res=new byte[4096];
                             DIS.read(res);
                             String resvice=new String(res);
+                            resvice=TextEncript.TextDecript(ServerIP,resvice.trim());
+                            System.out.println("Resived "+resvice);
                             //System.out.println("Resived value "+resvice.trim());
                             JSONObject Data = new JSONObject(resvice.trim());
+
                             int MailId=Data.getInt("MailId");
 
                             //Result
@@ -377,10 +388,10 @@ public class MQPSocket
                                 //Get mail
                                 mail_tbl Mail=new Mail_Service().GetMailById(MailId);
 
-                                System.out.println("IP is "+client_socket.getInetAddress().toString().replace("/",""));
+                                System.out.println("IP is "+client_socket.getInetAddress().toString().split("/")[1]);
 
                                 //Check from server ip address
-                                if(Mail.getFrom_Ip().equals(client_socket.getInetAddress().toString().replace("/","")))
+                                if(Mail.getFrom_Ip().equals(client_socket.getInetAddress().toString().split("/")[1]))
                                 {
                                     if (new Mail_Service().SeenMail(MailId))
                                     {
@@ -403,10 +414,10 @@ public class MQPSocket
                                 //Get mail
                                 mail_tbl Mail=new Mail_Service().GetMailById(MailId);
 
-                                System.out.println("IP is "+client_socket.getInetAddress().toString().replace("/",""));
+                                System.out.println("IP is "+client_socket.getInetAddress().toString().split("/")[1]);
 
                                 //Check from server ip address
-                                if(Mail.getFrom_Ip().equals(client_socket.getInetAddress().toString().replace("/","")))
+                                if(Mail.getFrom_Ip().equals(client_socket.getInetAddress().toString().split("/")[1]))
                                 {
                                     if (new Mail_Service().DeleteMail(MailId))
                                     {
@@ -526,7 +537,7 @@ public class MQPSocket
                     user ,
                     Data.get("FROM").toString(),
                     Data.get("TO").toString(),
-                    socket.getInetAddress().toString().replace("/","")
+                    socket.getInetAddress().toString().split("/")[1]
             );
 
             //Send mail id start
@@ -556,8 +567,8 @@ public class MQPSocket
             mail_tbl tag_mail=new Mail_Service().GetMailById(Data.getInt("MailId"));
 
             System.out.println("Frist Ip is "+tag_mail.getFrom_Ip());
-            System.out.println("Frist Ip is "+socket.getInetAddress().toString().replace("/",""));
-            if(tag_mail.getFrom_Ip().equals(socket.getInetAddress().toString().replace("/","")))
+            System.out.println("Frist Ip is "+socket.getInetAddress().toString().split("/")[1]);
+            if(tag_mail.getFrom_Ip().equals(socket.getInetAddress().toString().split("/")[1]))
             {
                 mail_tbl mail = new Mail_Service().UpdatenewMail(
                         Data.getInt("MailId"),
@@ -596,15 +607,9 @@ public class MQPSocket
         }
     }
     //Get update condition function end
-    
-    
-    
-    
-    
+
     /*******************************************************************************************************************************************/
-    
-    
-    
+
     //Send new mail function start
     public static String SendMQPMail(String address,String To,String From,String Title,String Content)
     {
@@ -618,7 +623,7 @@ public class MQPSocket
             Socket SendSocket = new Socket(address, Config.Port);
 //            InetSocketAddress socketAddress = (InetSocketAddress) SendSocket.getRemoteSocketAddress();
 //            String ServerIP=socketAddress.getAddress().getHostAddress();
-            String ServerIP=SendSocket.getInetAddress().toString().replace("/","");
+            String ServerIP=SendSocket.getInetAddress().toString().split("/")[1];
             System.out.println("Connected to "+address);
 
             //Get initlitze stream on socket
@@ -632,8 +637,11 @@ public class MQPSocket
             SendValue.put("TITLE",Title);
             SendValue.put("CONTENT",Content);
 
+            String EncriptedSendValue = TextEncript.TextEncript(SendSocket.getInetAddress().toString().split("/")[1],SendValue.toString());
+
             //Get send string length
-            DOS.write((SendValue.toString().trim().length()+"").getBytes());
+//            System.out.println("Sended "+EncriptedSendValue );
+            DOS.write((EncriptedSendValue.trim().length()+"").getBytes());
 
             //Get check
             byte check[]=new byte[20];
@@ -641,7 +649,7 @@ public class MQPSocket
             System.out.println("Condition is "+(new String(check)).trim());
 
             //Send mail to server
-            DOS.write(SendValue.toString().getBytes());
+            DOS.write(EncriptedSendValue.toString().getBytes());
 
             //Get mail condition
             byte []readvalue=new byte[120];
@@ -681,7 +689,7 @@ public class MQPSocket
             Socket SendSocket = new Socket(address, Config.Port);
 //            InetSocketAddress socketAddress = (InetSocketAddress) SendSocket.getRemoteSocketAddress();
 //            String ServerIP=socketAddress.getAddress().getHostAddress();
-            String ServerIP=SendSocket.getInetAddress().toString().replace("/","");
+            String ServerIP=SendSocket.getInetAddress().toString().split("/")[1];
             System.out.println("Connected to "+address);
 
             //Get initlitze stream on socket
@@ -696,8 +704,12 @@ public class MQPSocket
             SendValue.put("FROM",From);
             SendValue.put("TO",To);
 
+            String EncriptedSendValue = TextEncript.TextEncript(SendSocket.getInetAddress().toString().split("/")[1],SendValue.toString());
+            System.out.println("Entext " +EncriptedSendValue);
+
             //Get send string length
-            DOS.write((SendValue.toString().trim().length()+"").getBytes());
+//            DOS.write((SendValue.toString().trim().length()+"").getBytes());
+            DOS.write((EncriptedSendValue.toString().trim().length()+"").getBytes());
 
             //Get check
             byte check[]=new byte[20];
@@ -705,7 +717,7 @@ public class MQPSocket
             System.out.println("Condition is "+(new String(check)).trim());
 
             //Send mail to server
-            DOS.write(SendValue.toString().getBytes());
+            DOS.write(EncriptedSendValue.toString().getBytes());
 
             //Get mail condition
             byte []readvalue=new byte[120];
@@ -811,8 +823,12 @@ public class MQPSocket
             send_value.put("Condition","DELETE");
             send_value.put("MailId",mail_id);
 
+            String ServerIP=SendSocket.getInetAddress().toString().split("/")[1];
+            String EncriptedText=TextEncript.TextEncript(ServerIP,send_value.toString());
+
             //Send
-            DOS.write(send_value.toString().getBytes());
+            //DOS.write(send_value.toString().getBytes());
+            DOS.write(EncriptedText.toString().getBytes());
 
             //GetCheck
             byte GetCheckBytes[]=new byte[1024];
@@ -866,8 +882,12 @@ public class MQPSocket
             send_value.put("Condition","SEEN");
             send_value.put("MailId",mail_id);
 
+            String ServerIP=SendSocket.getInetAddress().toString().split("/")[1];
+            String EncriptedText=TextEncript.TextEncript(ServerIP,send_value.toString());
+
             //Send
-            DOS.write(send_value.toString().getBytes());
+//            DOS.write(send_value.toString().getBytes());
+            DOS.write(EncriptedText.toString().getBytes());
 
             //GetCheck
             byte GetCheckBytes[]=new byte[1024];

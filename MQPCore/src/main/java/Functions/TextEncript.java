@@ -57,40 +57,44 @@ public class TextEncript
     //Get encript text function start
     public static String TextEncript(String ip,String text)
     {
-        //Get check ip key start
-        String key="";
-        for(int i=0;i<JA.length();i++)
+        if(Config.Encription)
         {
-            if(JA.getJSONObject(i).getString("ip").equals(ip))
+            //Get check ip key start
+            String key = "";
+
+            for (int i = 0; i < JA.length(); i++)
             {
-                key=JA.getJSONObject(i).getString("key");
+                if (JA.getJSONObject(i).getString("ip").equals(ip))
+                {
+                    key = JA.getJSONObject(i).getString("key");
+                    break;
+                }
             }
+            //Get check ip key end
+
+            //Get encript start
+            String strKey = key;
+            try
+            {
+                SecretKeySpec skeySpec = new SecretKeySpec(strKey.getBytes(StandardCharsets.UTF_8), "Blowfish");
+                Cipher cipher = Cipher.getInstance("Blowfish");
+                cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+                byte[] encryptedBytes = cipher.doFinal(text.getBytes(StandardCharsets.UTF_8));
+                String result=Base64.getEncoder().encodeToString(encryptedBytes);
+                return result;
+            }
+            catch (Exception e)
+            {
+                System.out.println("Error : " + e.getMessage());
+            }
+            //Get encript end
+
+            return "";
         }
-        //Get check ip key end
-
-
-        //Get encript start
-        String strKey=key;
-        String strClearText=text;
-        String strData;
-        try
+        else
         {
-            SecretKeySpec skeyspec=new SecretKeySpec(strKey.getBytes(),"Blowfish");
-            Cipher cipher= Cipher.getInstance("Blowfish");
-            cipher.init(Cipher.ENCRYPT_MODE, skeyspec);
-            byte[] encrypted=cipher.doFinal(strClearText.getBytes());
-            strData=new String(encrypted);
-
-            return strData;
+            return text;
         }
-        catch (Exception e)
-        {
-            System.out.println("Error : "+e.getMessage());
-        }
-        //Get encript end
-
-
-        return "";
     }
     //Get encript text function end
 
@@ -98,38 +102,42 @@ public class TextEncript
     //Get decript text function start
     public static String TextDecript(String ip,String text)
     {
-        //Get check ip key start
-        String key="";
-        for(int i=0;i<JA.length();i++)
+        if(Config.Encription)
         {
-            if(JA.getJSONObject(i).getString("ip").equals(""))
+            //Get check ip key start
+            String key="";
+            for(int i=0;i<JA.length();i++)
             {
-                key=JA.getJSONObject(i).getString("key");
+                if(JA.getJSONObject(i).getString("ip").equals(ip))
+                {
+                    key=JA.getJSONObject(i).getString("key");
+                }
             }
+            //Get check ip key end
+
+
+            //Get decrypt string start
+            try
+            {
+                SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "Blowfish");
+                Cipher cipher = Cipher.getInstance("Blowfish");
+                cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+                byte[] decodedBytes = Base64.getDecoder().decode(text);
+                byte[] decryptedBytes = cipher.doFinal(decodedBytes);
+                return new String(decryptedBytes, StandardCharsets.UTF_8);
+            }
+            catch (Exception e)
+            {
+                System.out.println("Error : "+e.getMessage());
+            }
+            //Get decrypt string end
+
+            return "";
         }
-        //Get check ip key end
-
-
-        //Get decrypt string start
-        String strData;
-        try
+        else
         {
-            SecretKeySpec skeyspec=new SecretKeySpec(key.getBytes(),"Blowfish");
-            Cipher cipher=Cipher.getInstance("Blowfish");
-            cipher.init(Cipher.DECRYPT_MODE, skeyspec);
-            byte[] decrypted=cipher.doFinal(text.getBytes());
-            strData=new String(decrypted);
-
-            return strData;
+            return text;
         }
-        catch (Exception e)
-        {
-            System.out.println("Error : "+e.getMessage());
-        }
-        //Get decrypt string end
-
-
-        return "";
     }
     //Get decript text function end
 

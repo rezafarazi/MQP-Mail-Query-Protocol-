@@ -323,7 +323,7 @@ public class HttpHandlerController
             }
         }
 
-        return new ResponseModel("200","text/html","{\"status\":\"mail sended\"}");
+        return new ResponseModel("200","text/html","{\"status\":\"mail updated\"}");
     }
     //Update mail end
 
