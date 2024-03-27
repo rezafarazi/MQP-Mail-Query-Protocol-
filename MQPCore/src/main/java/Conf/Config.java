@@ -19,6 +19,7 @@ public class Config
     public static int HttpPort;
     public static int SeenPort;
     public static int FileSize;
+    public static int FileSizeSpli;
 
     //Check enciption
     public static boolean Encription;
@@ -46,6 +47,9 @@ public class Config
 
             //File size conf
             FileSize=Integer.parseInt(properties.getProperty("file_size_lim").toString());
+
+            //File spli array size conf
+            FileSizeSpli=Integer.parseInt(properties.getProperty("file_spli_size").toString());
 
             //Seen port conf
             SeenPort=Integer.parseInt(properties.getProperty("seen_delete_port").toString());

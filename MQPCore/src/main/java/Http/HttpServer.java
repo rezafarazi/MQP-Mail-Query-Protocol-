@@ -14,6 +14,8 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.UUID;
+
 
 public class HttpServer
 {
@@ -106,28 +108,75 @@ public class HttpServer
             {
                 if(request_value.contains("Auth"))
                 {
-                    byte[] request_text1 = new byte[28957];
-                    input.read(request_text1);
-
                     String Boundary = GetBoundary(request_value).replace("=","").replace("boundary","");
                     String FileExtention = GetFileExtention(request_value.split(Boundary)[2]).split("\\.")[1].replace("\"","");
+                    int FileSize=GetFileSize(request_value);
 
-//                    byte []request1=GetRemoveLines(request_value.split(Boundary)[2].trim(),3).trim().getBytes();
-//                    byte []request2=new String(request_text1).replace("--"+Boundary+"--","").trim().getBytes();
-//                    byte [] file_result =new byte[request1.length+request2.length];
-//                    ByteBuffer bf=ByteBuffer.wrap(file_result);
-//                    bf.put(request1);
-//                    bf.put(request2);
+//                    System.out.println("File size is "+FileSize);
 
+                    if(FileSize <= Config.FileSize)
+                    {
 
-                    byte [] file_result =new byte[request_text1.length+request_text.length];
-                    ByteBuffer bf=ByteBuffer.wrap(file_result);
-                    bf.put(request_text);
-                    bf.put(request_text1);
+                        byte file_all_result[]=new byte[Config.FileSize];
+                        byte[] request_text_append = new byte[Config.FileSizeSpli];
+                        ByteBuffer bf = ByteBuffer.wrap(file_all_result);
+                        bf.put(request_text);
 
-                    HTTPFiles.CreateFile(file_result,FileExtention);
-                    System.out.println("OK");
+                        while(true)
+                        {
+                            try
+                            {
 
+                                int input_bytes=input.read(request_text_append);
+                                bf.put(request_text_append);
+                                if(input_bytes<Config.FileSizeSpli)
+                                {
+                                    break;
+                                }
+
+                            }
+                            catch (Exception e)
+                            {
+                                System.out.println("Error loop "+e.getMessage());
+                                break;
+                            }
+                        }
+
+                        HTTPFiles.CreateFile(file_all_result,FileExtention);
+
+                        //Get response
+                        ResponseModel response=new ResponseModel("200","text/json","{\"message\":\"File Uploaded\"}");
+
+                        //Http response
+                        String HttpResponse="HTTP/1.1 " + response.getStatusCode()
+                                + "\nContent-type:" + response.getContentType()
+                                + "\nAccess-Control-Allow-Origin : * "
+                                + "\nAccess-Control-Allow-Headers : origin, content-type, accept, authorization "
+                                + "\nAccess-Control-Allow-Credentials : true "
+                                + "\nAccess-Control-Allow-Methods : GET, POST, PUT, DELETE, OPTIONS, HEAD "
+                                + "\n\n" + response.getContent();
+
+                        //get response
+                        output.write(HttpResponse.getBytes());
+
+                    }
+                    else
+                    {
+                        //Get response
+                        ResponseModel response=new ResponseModel("500","text/json","{\"message\":\"File size is big\"}");
+
+                        //Http response
+                        String HttpResponse="HTTP/1.1 " + response.getStatusCode()
+                                + "\nContent-type:" + response.getContentType()
+                                + "\nAccess-Control-Allow-Origin : * "
+                                + "\nAccess-Control-Allow-Headers : origin, content-type, accept, authorization "
+                                + "\nAccess-Control-Allow-Credentials : true "
+                                + "\nAccess-Control-Allow-Methods : GET, POST, PUT, DELETE, OPTIONS, HEAD "
+                                + "\n\n" + response.getContent();
+
+                        //get response
+                        output.write(HttpResponse.getBytes());
+                    }
                 }
                 else
                 {
@@ -454,6 +503,17 @@ public class HttpServer
         return requestHeaders.substring(start, end).trim();
     }
     //Get file extention function end
+
+
+    //Get file size function start
+    private static int GetFileSize(String requestHeaders)
+    {
+        final String contentLengthHeader = "Content-Length: ";
+        int start = requestHeaders.indexOf(contentLengthHeader) + contentLengthHeader.length();
+        int end = requestHeaders.indexOf("\r\n", start);
+        return Integer.parseInt(requestHeaders.substring(start, end).trim());
+    }
+    //Get file size function end
 
 
     //Get remove lines of string funcition start
