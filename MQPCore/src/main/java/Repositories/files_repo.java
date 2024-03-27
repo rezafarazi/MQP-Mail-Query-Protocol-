@@ -9,7 +9,7 @@ public interface files_repo
 {
 
 
-    public boolean NewFile(File file,String hash) throws IOException;
+    public boolean NewFile(File file,String hash,String file_extention) throws IOException;
 
     public boolean FileExist(String Hash);
 

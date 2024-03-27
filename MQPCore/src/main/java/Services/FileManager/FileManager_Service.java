@@ -48,7 +48,7 @@ public class FileManager_Service implements files_repo
 
     //New file start
     @Override
-    public boolean NewFile(File file,String file_hash)
+    public boolean NewFile(File file,String file_hash,String file_extention)
     {
         //String file_hash=File_Hash_Lib.HashFile(new File(Root_Folder + file.getName().toString()));
         boolean hash_check=new FileManager_Service().FileExist(file_hash);
@@ -73,10 +73,12 @@ public class FileManager_Service implements files_repo
 
                 //Insert in database start
                 files_tbl file_ = new files_tbl(
-                        (dtf.format(now).toString()) + "." + FilenameUtils.getExtension(file.getName()),
+//                        (dtf.format(now).toString()) + "." + FilenameUtils.getExtension(file.getName()),
+                        file_hash,
                         FilenameUtils.getExtension(file.getName()),
                         file_hash,
-                        Root_Folder + (dtf.format(now).toString())
+//                        Root_Folder + (dtf.format(now).toString())
+                        Root_Folder + "/" +file_hash + "." + file_extention
                 );
 
                 session.save(file_);

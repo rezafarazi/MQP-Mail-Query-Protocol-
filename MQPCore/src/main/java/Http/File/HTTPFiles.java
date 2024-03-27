@@ -31,9 +31,14 @@ public class HTTPFiles
                 System.out.println("File uploaded");
             }
 
+
+            //Get add to database
+            File storage_file=new File(Config.Root_Dir +"\\"+Filename+"."+FileExtention);
             String FileHash=GetFileHash(Config.Root_Dir +"\\"+Filename+"."+FileExtention);
-            new FileManager_Service().NewFile(new File(Config.Root_Dir +"\\"+Filename+"."+FileExtention),FileHash);
-            System.out.println("File hash is "+FileHash);
+            new FileManager_Service().NewFile(storage_file,FileHash,FileExtention);
+
+            //Get rename file
+            storage_file.renameTo(new File(Config.Root_Dir +"\\"+FileHash+"."+FileExtention));
 
         }
         catch (Exception e)
