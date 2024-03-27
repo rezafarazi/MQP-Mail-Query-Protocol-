@@ -25,7 +25,7 @@ public class HttpHandlerController
     //Get index start
     public ResponseModel Index()
     {
-        return new ResponseModel("200","text/json","{\"name\":\"reza\",\"lastname\":\"farazi\"}");
+        return new ResponseModel("200","text/json","{\"message\":\"hello world\"}");
     }
     //Get index end
 
@@ -422,6 +422,15 @@ public class HttpHandlerController
         return new ResponseModel("200","text/html","{\"status\":\"mail is seen done\"}");
     }
     //Seen mail end
+
+
+    //FileUpload start
+    public ResponseModel FileUpload(JSONObject parametrs,JSONObject Header)
+    {
+
+        return new ResponseModel("200","text/html","{\"status\":\"hello\"}");
+    }
+    //FileUpload end
 
 
 }

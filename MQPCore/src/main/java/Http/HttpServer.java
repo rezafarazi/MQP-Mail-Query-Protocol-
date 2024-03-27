@@ -2,15 +2,18 @@ package Http;
 
 import Conf.Config;
 import Functions.TextEncript;
+import Http.File.HTTPFiles;
 import Http.Models.ResponseModel;
 import Http.Models.UserAuthModel;
 import com.sun.net.httpserver.Headers;
+import org.json.HTTP;
 import org.json.JSONObject;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 
 public class HttpServer
 {
@@ -99,20 +102,68 @@ public class HttpServer
             input.read(request_text);
             String request_value = new String(request_text);
 
-            //Get handle request
-            ResponseModel response = GetHandleRequest(request_value);
+            if(request_value.contains("Content-Type: multipart/form-data;") && request_value.contains("POST /FileUpload"))
+            {
+                if(request_value.contains("Auth"))
+                {
+                    byte[] request_text1 = new byte[28957];
+                    input.read(request_text1);
 
-            //Http response
-            String HttpResponse="HTTP/1.1 " + response.getStatusCode()
-                    + "\nContent-type:" + response.getContentType()
-                    + "\nAccess-Control-Allow-Origin : * "
-                    + "\nAccess-Control-Allow-Headers : origin, content-type, accept, authorization "
-                    + "\nAccess-Control-Allow-Credentials : true "
-                    + "\nAccess-Control-Allow-Methods : GET, POST, PUT, DELETE, OPTIONS, HEAD "
-                    + "\n\n" + response.getContent();
+                    String Boundary = GetBoundary(request_value).replace("=","").replace("boundary","");
+                    String FileExtention = GetFileExtention(request_value.split(Boundary)[2]).split("\\.")[1].replace("\"","");
 
-            //get response
-            output.write(HttpResponse.getBytes());
+//                    byte []request1=GetRemoveLines(request_value.split(Boundary)[2].trim(),3).trim().getBytes();
+//                    byte []request2=new String(request_text1).replace("--"+Boundary+"--","").trim().getBytes();
+//                    byte [] file_result =new byte[request1.length+request2.length];
+//                    ByteBuffer bf=ByteBuffer.wrap(file_result);
+//                    bf.put(request1);
+//                    bf.put(request2);
+
+
+                    byte [] file_result =new byte[request_text1.length+request_text.length];
+                    ByteBuffer bf=ByteBuffer.wrap(file_result);
+                    bf.put(request_text);
+                    bf.put(request_text1);
+
+                    HTTPFiles.CreateFile(file_result,FileExtention);
+                    System.out.println("OK");
+
+                }
+                else
+                {
+                    //Get response
+                    ResponseModel response=new ResponseModel("403","text/json","{\"message\":\"You not authenticated\"}");
+
+                    //Http response
+                    String HttpResponse="HTTP/1.1 " + response.getStatusCode()
+                            + "\nContent-type:" + response.getContentType()
+                            + "\nAccess-Control-Allow-Origin : * "
+                            + "\nAccess-Control-Allow-Headers : origin, content-type, accept, authorization "
+                            + "\nAccess-Control-Allow-Credentials : true "
+                            + "\nAccess-Control-Allow-Methods : GET, POST, PUT, DELETE, OPTIONS, HEAD "
+                            + "\n\n" + response.getContent();
+
+                    //get response
+                    output.write(HttpResponse.getBytes());
+                }
+            }
+            else
+            {
+                //Get handle request
+                ResponseModel response = GetHandleRequest(request_value);
+
+                //Http response
+                String HttpResponse="HTTP/1.1 " + response.getStatusCode()
+                        + "\nContent-type:" + response.getContentType()
+                        + "\nAccess-Control-Allow-Origin : * "
+                        + "\nAccess-Control-Allow-Headers : origin, content-type, accept, authorization "
+                        + "\nAccess-Control-Allow-Credentials : true "
+                        + "\nAccess-Control-Allow-Methods : GET, POST, PUT, DELETE, OPTIONS, HEAD "
+                        + "\n\n" + response.getContent();
+
+                //get response
+                output.write(HttpResponse.getBytes());
+            }
 
             //Get close all socket and streams
             input.close();
@@ -131,7 +182,7 @@ public class HttpServer
     //Request handler function start
     public ResponseModel GetHandleRequest(String HttpRequest)
     {
-//        System.out.println(HttpRequest);
+        System.out.println(HttpRequest.trim());
 
         String []requests=HttpRequest.split("\n");
 
@@ -313,6 +364,12 @@ public class HttpServer
                 else
                     response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
                 break;
+            case "/FileUpload":
+                if(GetApiAuthCheck(Header))
+                    response=new HttpHandlerController().FileUpload(parametrs_json,Header);
+                else
+                    response=new ResponseModel("403","text/json","{\"message\":\"Auth error\"}");
+                break;
             default:
                 response=new ResponseModel("404","text/json","{\"message\":\"not found\"}");
                 break;
@@ -364,6 +421,53 @@ public class HttpServer
         }
     }
     //Http log file function end
+
+
+    //Get http content size function start
+    private static int GetContentLength(String requestHeaders)
+    {
+        final String contentLengthHeader = "Content-Length: ";
+        int start = requestHeaders.indexOf(contentLengthHeader) + contentLengthHeader.length();
+        int end = requestHeaders.indexOf("\r\n", start);
+        return Integer.parseInt(requestHeaders.substring(start, end).trim());
+    }
+    //Get http content size function end
+
+
+    //Get boundary function start
+    private static String GetBoundary(String requestHeaders)
+    {
+        final String contentLengthHeader = "Content-Type: multipart/form-data; ";
+        int start = requestHeaders.indexOf(contentLengthHeader) + contentLengthHeader.length();
+        int end = requestHeaders.indexOf("\r\n", start);
+        return requestHeaders.substring(start, end).trim();
+    }
+    //Get boundary function end
+
+
+    //Get file extention function start
+    private static String GetFileExtention(String requestHeaders)
+    {
+        final String contentLengthHeader = "Content-Type: multipart/form-data; ";
+        int start = requestHeaders.indexOf(contentLengthHeader) + contentLengthHeader.length();
+        int end = requestHeaders.indexOf("\r\n", start);
+        return requestHeaders.substring(start, end).trim();
+    }
+    //Get file extention function end
+
+
+    //Get remove lines of string funcition start
+    private static String GetRemoveLines(String value,int from)
+    {
+        String result="";
+        String []lines=value.split("\n");
+
+        for (int i=from;i<lines.length;i++)
+            result+=lines[i]+"\r\n";
+
+        return result;
+    }
+    //Get remove lines of string funcition end
 
 
 }
