@@ -1,8 +1,12 @@
 package Http.File;
 
 import Conf.Config;
+import Services.FileManager.FileManager_Service;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
 import java.util.Random;
 
 public class HTTPFiles
@@ -26,6 +30,11 @@ public class HTTPFiles
                 fos.close();
                 System.out.println("File uploaded");
             }
+
+            String FileHash=GetFileHash(Config.Root_Dir +"\\"+Filename+"."+FileExtention);
+            new FileManager_Service().NewFile(new File(Config.Root_Dir +"\\"+Filename+"."+FileExtention),FileHash);
+            System.out.println("File hash is "+FileHash);
+
         }
         catch (Exception e)
         {
@@ -63,5 +72,26 @@ public class HTTPFiles
     }
     //Get remove http header end
 
+
+    //Get file hash function start
+    public static String GetFileHash(String file_addres) throws Exception
+    {
+        byte[] fileBytes = Files.readAllBytes(Paths.get(file_addres));
+
+        // Create a MessageDigest instance for SHA-256
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] encodedHash = digest.digest(fileBytes);
+
+        StringBuilder hexString = new StringBuilder(2 * encodedHash.length);
+        for (byte b : encodedHash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+    //Get file hash function end
 
 }

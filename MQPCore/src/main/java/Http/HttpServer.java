@@ -104,16 +104,20 @@ public class HttpServer
             input.read(request_text);
             String request_value = new String(request_text);
 
+            //Get check request file
             if(request_value.contains("Content-Type: multipart/form-data;") && request_value.contains("POST /FileUpload"))
             {
+                //Get check user is auth
                 if(request_value.contains("Auth"))
                 {
+
                     String Boundary = GetBoundary(request_value).replace("=","").replace("boundary","");
                     String FileExtention = GetFileExtention(request_value.split(Boundary)[2]).split("\\.")[1].replace("\"","");
                     int FileSize=GetFileSize(request_value);
 
 //                    System.out.println("File size is "+FileSize);
 
+                    //Get check file size
                     if(FileSize <= Config.FileSize)
                     {
 

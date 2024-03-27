@@ -48,9 +48,9 @@ public class FileManager_Service implements files_repo
 
     //New file start
     @Override
-    public boolean NewFile(File file)
+    public boolean NewFile(File file,String file_hash)
     {
-        String file_hash=File_Hash_Lib.HashFile(new File(Root_Folder + file.getName().toString()));
+        //String file_hash=File_Hash_Lib.HashFile(new File(Root_Folder + file.getName().toString()));
         boolean hash_check=new FileManager_Service().FileExist(file_hash);
 
         if(hash_check == false)
