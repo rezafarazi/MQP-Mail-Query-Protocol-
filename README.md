@@ -60,6 +60,22 @@ git clone https://github.com/rezafarazi/MQP-Mail-Query-Protocol-.git
     address -> String
 ```
 
+### List of user mails
+```
+/GetMailBox -> POST
+  header:
+    Auth -> Token
+```
+
+### Get all mails with an user
+```
+/GetMailsOfUser -> POST
+  header:
+    Auth -> Token
+  body:
+    username -> username@domain
+```
+
 ### Send mail
 ```
 /SendMail -> POST
