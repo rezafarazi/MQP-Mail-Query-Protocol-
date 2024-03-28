@@ -34,7 +34,15 @@ git clone https://github.com/rezafarazi/MQP-Mail-Query-Protocol-.git
 
 # Http Api
 > Login
-> > /Login
-> > > username
-> > > password
+> > /Login -> POST
+> > > username -> String
+> > > password -> String
+> Signup
+> > /Signup -> POST
+> > > name -> String
+> > > family -> String
+> > > password -> String
+> > > username -> String
+> > > phone -> String
+> > > email -> String
 
