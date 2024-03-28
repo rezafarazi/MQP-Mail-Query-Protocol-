@@ -28,9 +28,9 @@ git clone https://github.com/rezafarazi/MQP-Mail-Query-Protocol-.git
 
 ![code](https://github.com/rezafarazi/MQP-Mail-Query-Protocol-/assets/45543047/b9395193-2849-4c95-8cf6-b7a45ba7b4a8)
 
-### 6 - Setup an panel or app over MQPCore program
-### 7 - Start MQP on your vps or server
+### 6 - Start MQP on your vps or server
 
+![image](https://github.com/rezafarazi/MQP-Mail-Query-Protocol-/assets/45543047/dd1fed6d-7d1e-424c-a3e1-29035bdffc95)
 
 # Http Api
 ### Login
