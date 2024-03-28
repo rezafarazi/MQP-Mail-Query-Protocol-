@@ -36,16 +36,16 @@ git clone https://github.com/rezafarazi/MQP-Mail-Query-Protocol-.git
 ### Login
 ```
 /Login -> POST
-username -> String
-password -> String
+  username -> String
+  password -> String
 ```
 ### Signup
 ```
 /Signup -> POST
-name -> String
-family -> String
-username -> String
-password -> String
-email -> String
-phone -> String
+  name -> String
+  family -> String
+  username -> String
+  password -> String
+  email -> String
+  phone -> String
 ```
