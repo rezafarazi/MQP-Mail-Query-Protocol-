@@ -3,16 +3,20 @@ package Http;
 import Conf.Config;
 import Functions.Hash;
 import Functions.TextEncript;
+import Http.Models.FileResponseModel;
 import Http.Models.ResponseModel;
 import Http.Models.UserAuthModel;
 import MQPSocket.MQPSocket;
 import Models.mail_tbl;
 import Models.users_tbl;
+import Services.FileManager.FileManager_Service;
 import Services.Mail.Mail_Service;
 import Services.Users.Users_Service;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +32,34 @@ public class HttpHandlerController
         return new ResponseModel("200","text/json","{\"message\":\"hello world\"}");
     }
     //Get index end
+
+
+    //Get file by hash address start
+    public FileResponseModel GetFile(String FileHash)
+    {
+        try
+        {
+            File file = new FileManager_Service().GetFile(FileHash);
+            System.out.println("Adddress is "+file.getPath());
+            if (file.exists())
+            {
+                System.out.println("File exist");
+                byte[] FileBytes = Files.readAllBytes(file.toPath());
+                return new FileResponseModel("200", "image/jpeg", FileBytes,file.getPath());
+            }
+            else
+            {
+                System.out.println("File not exist");
+                return new FileResponseModel("404", "text/json", ("{\"message\":\"can not found file on server\"}").getBytes(),"");
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("File error");
+            return new FileResponseModel("500", "text/json", ("{\"message\":\"Internal server error\"}").getBytes(),"");
+        }
+    }
+    //Get file by hash address end
 
 
     //Get login start

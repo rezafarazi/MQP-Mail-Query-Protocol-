@@ -68,7 +68,7 @@ public class FileManager_Service implements files_repo
                 //copy file to main folder start
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-ddHH-mm-ss");
                 LocalDateTime now = LocalDateTime.now();
-                Files.copy(file.toPath(), Paths.get(Root_Folder + (dtf.format(now).toString()) + "." + FilenameUtils.getExtension(file.getName())));
+                Files.copy(file.toPath(), Paths.get(Root_Folder +"\\"+ (dtf.format(now).toString()) + "." + FilenameUtils.getExtension(file.getName())));
                 //copy file to main folder end
 
                 //Insert in database start

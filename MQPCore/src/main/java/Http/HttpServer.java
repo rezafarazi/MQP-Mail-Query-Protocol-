@@ -3,17 +3,21 @@ package Http;
 import Conf.Config;
 import Functions.TextEncript;
 import Http.File.HTTPFiles;
+import Http.Models.FileResponseModel;
 import Http.Models.ResponseModel;
 import Http.Models.UserAuthModel;
 import com.sun.net.httpserver.Headers;
 import org.json.HTTP;
 import org.json.JSONObject;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
 import java.util.UUID;
 
 
@@ -200,6 +204,27 @@ public class HttpServer
                     output.write(HttpResponse.getBytes());
                 }
             }
+            else if(request_value.contains("GET /File/"))
+            {
+                //Get file
+                FileResponseModel response=new HttpHandlerController().GetFile(GetParametsByUrl("/File",request_value));
+
+                File fileToSend = new File(response.getPath());
+
+                //Http response
+                String HttpResponse="HTTP/1.1 " + response.getStatusCode()
+                        + "\nContent-type:" + Files.probeContentType(fileToSend.toPath())
+                        + "\n\n";
+
+                //get response
+                if(!response.getPath().trim().equals(""))
+                {
+                    output.write(HttpResponse.getBytes());
+                    output.write(response.getContent());
+                    output.flush();
+                }
+
+            }
             else
             {
                 //Get handle request
@@ -235,7 +260,7 @@ public class HttpServer
     //Request handler function start
     public ResponseModel GetHandleRequest(String HttpRequest)
     {
-        System.out.println(HttpRequest.trim());
+//        System.out.println(HttpRequest.trim());
 
         String []requests=HttpRequest.split("\n");
 
@@ -326,6 +351,18 @@ public class HttpServer
         return response;
     }
     //Get handle Get request function end
+
+
+    //Get parametrs function start
+    public String GetParametsByUrl(String Parametr,String URL)
+    {
+        URL=URL.split("\n")[0].split(" ")[1];
+        System.out.println("URL is "+URL );
+        String [] url_sections = URL.split("\n")[0].split(Parametr+"/");
+        return url_sections[1];
+    }
+    //Get parametrs function end
+
 
     //Get handle Post request function start
     public ResponseModel GetHandlePostMethod(String request,String []requests,JSONObject Header)
