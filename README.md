@@ -39,15 +39,13 @@ git clone https://github.com/rezafarazi/MQP-Mail-Query-Protocol-.git
 username -> String
 password -> String
 ```
-![s](https://github.com/rezafarazi/MQP-Mail-Query-Protocol-/assets/45543047/f7e1fa82-472f-4668-849c-27fdcdeb4b4d)
-
-
-> Signup
-> > /Signup -> POST
-> > > name -> String
-> > > family -> String
-> > > password -> String
-> > > username -> String
-> > > phone -> String
-> > > email -> String
-
+### Signup
+```
+/Signup -> POST
+name -> String
+family -> String
+username -> String
+password -> String
+email -> String
+phone -> String
+```
