@@ -53,7 +53,14 @@ git clone https://github.com/rezafarazi/MQP-Mail-Query-Protocol-.git
     phone -> String
 ```
 
-### SendMail
+### Check user exist
+```
+/CheckUser -> POST
+  body:
+    address -> String
+```
+
+### Send mail
 ```
 /SendMail -> POST
   header:
@@ -62,5 +69,45 @@ git clone https://github.com/rezafarazi/MQP-Mail-Query-Protocol-.git
     title -> String
     content -> String
     address -> String
+```
 
+### Update mail
+```
+/SendMail -> POST
+  header:
+    Auth -> Token
+  body:
+    title -> String
+    content -> String
+    address -> String
+    mail_id -> Integer
+```
+
+### Delete mail
+```
+/DeleteMail -> POST
+  header:
+    Auth -> Token
+  body:
+    address -> String
+    MAILIDMAILID -> Integer
+```
+
+### Seen mail
+```
+/SeenMail -> POST
+  header:
+    Auth -> Token
+  body:
+    address -> String
+    MAILIDMAILID -> Integer
+```
+
+### File upload
+```
+/SeenMail -> POST
+  header:
+    Auth -> Token
+  body:
+    file -> Multi part file
 ```
