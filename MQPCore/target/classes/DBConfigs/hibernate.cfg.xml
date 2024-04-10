@@ -6,6 +6,8 @@
 
   <session-factory>
 
+    <
+
     <property name="connection.url">jdbc:mysql://localhost:3306/mqp_db_</property>
     <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
     <property name="connection.username">root</property>
