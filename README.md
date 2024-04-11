@@ -2,7 +2,7 @@
 
 ![logo](https://github.com/rezafarazi/MQP-Mail-Query-Protocol-/assets/45543047/36f3d9c9-21ec-483e-b96b-54c1fadfa0a4)
 
-MQP (Mail Query Protocol) Core 
+MQP (Mail Query Protocol)
 
 # MPQ (Mail Query protocol)
 ### A network protocol for sending and receiving messages and Mails over the Internet
